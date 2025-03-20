@@ -1,7 +1,6 @@
+import { AnalyticsPage } from '@/components/analytics-page'
 import { SidebarProvider } from '@/components/ui/sidebar'
 import { ThemeProvider } from '@/components/theme-provider'
-import { DashboardLayout } from '@/components/dashboard-layout'
-import { AnalyticsContent } from './analytics-content'
 
 export default function Analytics() {
     return (
@@ -11,9 +10,7 @@ export default function Analytics() {
             enableSystem
         >
             <SidebarProvider>
-                <DashboardLayout>
-                    <AnalyticsContent />
-                </DashboardLayout>
+                <AnalyticsPage />
             </SidebarProvider>
         </ThemeProvider>
     )
