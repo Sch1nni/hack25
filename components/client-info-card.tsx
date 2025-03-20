@@ -30,7 +30,7 @@ export function ClientInfoCard({ client }: ClientInfoCardProps) {
                 <div className="mb-6 flex flex-col items-center text-center">
                     <Avatar className="mb-4 h-24 w-24">
                         <AvatarImage
-                            src={client.avatar}
+                            src={`/assets/imgs/${client.avatar}`}
                             alt={client.name}
                         />
                         <AvatarFallback>{client.initials}</AvatarFallback>

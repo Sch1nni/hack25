@@ -11,13 +11,13 @@ import { useState } from 'react'
 const clients = [
     {
         id: '1',
-        name: 'Emma Thompson',
+        name: 'William Anderson',
         email: 'emma.thompson@example.com',
         portfolioValue: '$2.4M',
         change: '+5.2%',
         positive: true,
         lastContact: '2 days ago',
-        avatar: '/placeholder.svg?height=40&width=40',
+        avatar: 'client_1.png',
         initials: 'ET',
     },
     {
@@ -28,7 +28,7 @@ const clients = [
         change: '+3.7%',
         positive: true,
         lastContact: '1 week ago',
-        avatar: '/placeholder.svg?height=40&width=40',
+        avatar: 'client_2.png',
         initials: 'MC',
     },
     {
@@ -39,7 +39,7 @@ const clients = [
         change: '-1.3%',
         positive: false,
         lastContact: '3 days ago',
-        avatar: '/placeholder.svg?height=40&width=40',
+        avatar: 'client_3.png',
         initials: 'SJ',
     },
     {
@@ -50,7 +50,7 @@ const clients = [
         change: '+2.8%',
         positive: true,
         lastContact: 'Today',
-        avatar: '/placeholder.svg?height=40&width=40',
+        avatar: 'client_4.png',
         initials: 'DW',
     },
     {
@@ -61,7 +61,7 @@ const clients = [
         change: '+4.1%',
         positive: true,
         lastContact: 'Yesterday',
-        avatar: '/placeholder.svg?height=40&width=40',
+        avatar: 'client_5.png',
         initials: 'JL',
     },
 ]
@@ -120,7 +120,7 @@ export function ClientsSection({ onViewClient }: ClientsSectionProps) {
                                     onClick={() => onViewClient && onViewClient(client.id)}
                                 >
                                     <AvatarImage
-                                        src={client.avatar}
+                                        src={`/assets/imgs/${client.avatar}`}
                                         alt={client.name}
                                     />
                                     <AvatarFallback>{client.initials}</AvatarFallback>

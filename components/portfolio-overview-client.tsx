@@ -6,7 +6,7 @@ import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { ArrowUpRight, TrendingUp } from 'lucide-react'
 import { ResponsiveContainer, LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, Area } from 'recharts'
 
-const benchmarkData = [
+const predictionData = [
     { date: 'Jan', value: 2400000 },
     { date: 'Feb', value: 2300000 },
     { date: 'Mar', value: 2500000 },
@@ -22,6 +22,8 @@ const benchmarkData = [
 ]
 
 import portfolioJson from '@/assets/portfolio-client.json'
+import portfolio_prediction from '@/assets/portfolio_prediction.json'
+import portfolio_future_prediction from '@/assets/future_predictions.json'
 // console.log('portfolioJson', portfolioJson)
 
 /**
@@ -91,19 +93,62 @@ function getPortfolioData() {
 // Use the processed portfolio data
 const portfolioData = getPortfolioData()
 
-// Combine data for the chart
-const combinedData = portfolioData.map((item, index) => {
-    // Find matching benchmark data or use default
-    const benchmarkItem = benchmarkData.find((b) => b.date === item.date.substring(5)) || { value: item.value * 0.1 } // Fallback if no match
+/**
+ * * Calculates the index in portfolioData for a prediction point
+ * ? Takes the total range and divides it evenly based on prediction length
+ */
+const getPredictionIndex = (predictionIndex: number, totalPredictions: number) => {
+    const step = portfolioData.length / totalPredictions
+    return Math.floor(predictionIndex * step)
+}
 
-    let _combinedData = {
-        date: item.date, // Use full date format yyyy-mm-dd
-        portfolio: item.value,
-        benchmark: benchmarkItem.value,
+/**
+ * * Creates future dates starting from the last portfolio date
+ * ? Generates dates with the same interval as portfolio data
+ */
+const generateFutureDates = (startDate: string, count: number) => {
+    const dates = []
+    let currentDate = new Date(startDate)
+
+    // Calculate the average interval between portfolio dates
+    const firstDate = new Date(portfolioData[0].date)
+    const lastDate = new Date(portfolioData[portfolioData.length - 1].date)
+    const avgInterval = (lastDate.getTime() - firstDate.getTime()) / portfolioData.length
+
+    for (let i = 0; i < count; i++) {
+        currentDate = new Date(currentDate.getTime() + avgInterval)
+        dates.push(currentDate.toISOString().split('T')[0])
     }
+    return dates
+}
 
-    return _combinedData
+// Generate past predictions (overlapped with portfolio data)
+const pastData = portfolioData.map((item, index) => {
+    // Find the closest prediction point
+    const predictionIndex = portfolio_prediction.findIndex((_, i) => {
+        const portfolioIndex = getPredictionIndex(i, portfolio_prediction.length)
+        return portfolioIndex === index
+    })
+
+    return {
+        date: item.date,
+        portfolio: item.value,
+        pastPrediction: predictionIndex !== -1 ? portfolio_prediction[predictionIndex].Predictions : null,
+        futurePrediction: null,
+    }
 })
+
+// Create future prediction data using timestamps from the data
+const futureData = portfolio_future_prediction.map((prediction) => ({
+    date: new Date(prediction.Data).toISOString().split('T')[0],
+    portfolio: null,
+    pastPrediction: null,
+    futurePrediction: prediction['Prezzo Previsto'],
+}))
+
+// Combine data for the chart
+const combinedData = [...pastData, ...futureData]
+
 export function PortfolioOverviewClient({ onlyChart }: { onlyChart?: boolean }) {
     const [timeframe, setTimeframe] = useState('1Y')
 
@@ -114,10 +159,10 @@ export function PortfolioOverviewClient({ onlyChart }: { onlyChart?: boolean }) 
                 height="100%"
             >
                 <LineChart data={combinedData}>
-                    <CartesianGrid
+                    {/* <CartesianGrid
                         strokeDasharray="3 3"
                         opacity={0.2}
-                    />
+                    /> */}
                     <XAxis
                         dataKey="date"
                         tickFormatter={(value) => value.substring(5)} // Show only MM-DD part for display
@@ -143,13 +188,23 @@ export function PortfolioOverviewClient({ onlyChart }: { onlyChart?: boolean }) 
                     />
                     <Line
                         type="monotone"
-                        dataKey="benchmark"
-                        name="Benchmark"
+                        dataKey="pastPrediction"
+                        name="pastPrediction"
                         stroke="#94a3b8"
-                        strokeWidth={2}
-                        strokeDasharray="5 5"
+                        strokeWidth={1}
+                        // dot={false}
+                        strokeDasharray="60 60"
                     />
-                    <defs>
+                    <Line
+                        type="monotone"
+                        dataKey="futurePrediction"
+                        name="futurePrediction"
+                        stroke="#e94c47"
+                        strokeWidth={2}
+                        dot={false}
+                        // strokeDasharray="5 5"
+                    />
+                    {/* <defs>
                         <linearGradient
                             id="colorGradient"
                             x1="0"
@@ -174,7 +229,7 @@ export function PortfolioOverviewClient({ onlyChart }: { onlyChart?: boolean }) 
                         dataKey="portfolio"
                         fill="url(#colorGradient)"
                         fillOpacity={0.2}
-                    />
+                    /> */}
                 </LineChart>
             </ResponsiveContainer>
         </div>
@@ -225,7 +280,7 @@ export function PortfolioOverviewClient({ onlyChart }: { onlyChart?: boolean }) 
                     </div>
 
                     <div className="space-y-1">
-                        <p className="text-sm text-muted-foreground">Benchmark Diff</p>
+                        <p className="text-sm text-muted-foreground">prediction Diff</p>
                         <div className="flex items-center gap-2">
                             <span className="text-2xl font-bold">+3.8%</span>
                             <div className="flex items-center text-sm font-medium text-emerald-500">

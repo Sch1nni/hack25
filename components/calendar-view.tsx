@@ -17,13 +17,13 @@ const calendarEvents = [
     {
         id: 1,
         type: 'appointment',
-        title: 'Portfolio Review with Emma Thompson',
+        title: 'Portfolio Review with William Anderson',
         date: '2025-03-22T10:00:00',
         endDate: '2025-03-22T11:00:00',
         client: {
             id: '1',
-            name: 'Emma Thompson',
-            avatar: '/placeholder.svg?height=32&width=32',
+            name: 'William Anderson',
+            avatar: '/client_1.png',
             initials: 'ET',
         },
         location: 'Video Call',
@@ -39,7 +39,7 @@ const calendarEvents = [
         client: {
             id: '2',
             name: 'Michael Chen',
-            avatar: '/placeholder.svg?height=32&width=32',
+            avatar: '/client_2.png',
             initials: 'MC',
         },
         location: 'Office',
@@ -55,7 +55,7 @@ const calendarEvents = [
         client: {
             id: '3',
             name: 'Sarah Johnson',
-            avatar: '/placeholder.svg?height=32&width=32',
+            avatar: '/client_3.png',
             initials: 'SJ',
         },
         location: 'Phone Call',
@@ -71,7 +71,7 @@ const calendarEvents = [
         client: {
             id: '4',
             name: 'David Williams',
-            avatar: '/placeholder.svg?height=32&width=32',
+            avatar: '/client_4.png',
             initials: 'DW',
         },
         location: 'Office',
@@ -87,7 +87,7 @@ const calendarEvents = [
         client: {
             id: '5',
             name: 'Jennifer Lee',
-            avatar: '/placeholder.svg?height=32&width=32',
+            avatar: '/client_5.png',
             initials: 'JL',
         },
         location: 'Video Call',

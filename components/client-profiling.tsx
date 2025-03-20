@@ -285,7 +285,7 @@ export function ClientProfiling() {
                                                     value={interest.score}
                                                     className="h-2"
                                                     style={{ backgroundColor: `${interest.color}20` }}
-                                                    indicatorStyle={{ backgroundColor: interest.color }}
+                                                    color={interest.color}
                                                 />
                                                 <div className="text-xs text-muted-foreground">
                                                     {interest.category === 'Automotive' && 'High interest in F1 and luxury vehicles'}
@@ -380,7 +380,10 @@ export function ClientProfiling() {
                                         </div>
                                     </div>
 
-                                    <Button className="w-full">
+                                    <Button
+                                        className="w-full"
+                                        variant="outline"
+                                    >
                                         <PlusCircle className="mr-2 h-4 w-4" />
                                         Generate More Recommendations
                                     </Button>

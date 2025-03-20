@@ -139,7 +139,10 @@ export function ImplementationChecklist() {
                                 <span>{progressPercentage}% Complete</span>
                             </div>
                         </Badge>
-                        <Button size="sm">
+                        <Button
+                            size="sm"
+                            variant="outline"
+                        >
                             <PlusCircle className="mr-2 h-4 w-4" />
                             Add Task
                         </Button>

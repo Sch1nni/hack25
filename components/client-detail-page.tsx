@@ -21,7 +21,7 @@ import { ClientInfoCard } from '@/components/client-info-card'
 const clientsData = [
     {
         id: '1',
-        name: 'Emma Thompson',
+        name: 'William Anderson',
         email: 'emma.thompson@example.com',
         phone: '+1 (555) 123-4567',
         address: '123 Main St, New York, NY 10001',
@@ -31,7 +31,7 @@ const clientsData = [
         change: '+5.2%',
         positive: true,
         lastContact: '2 days ago',
-        avatar: '/placeholder.svg?height=80&width=80',
+        avatar: 'client_1.png',
         initials: 'ET',
         riskProfile: 'Moderate',
         clientSince: '2015',
@@ -171,7 +171,7 @@ const clientsData = [
         change: '+3.7%',
         positive: true,
         lastContact: '1 week ago',
-        avatar: '/placeholder.svg?height=80&width=80',
+        avatar: 'client_2.png',
         initials: 'MC',
         riskProfile: 'Aggressive',
         clientSince: '2018',
@@ -298,7 +298,7 @@ const clientsData = [
         change: '-1.3%',
         positive: false,
         lastContact: '3 days ago',
-        avatar: '/placeholder.svg?height=80&width=80',
+        avatar: 'client_3.png',
         initials: 'SJ',
         riskProfile: 'Conservative',
         clientSince: '2010',
@@ -433,7 +433,7 @@ const clientsData = [
         change: '+2.8%',
         positive: true,
         lastContact: 'Today',
-        avatar: '/placeholder.svg?height=80&width=80',
+        avatar: 'client_4.png',
         initials: 'DW',
         riskProfile: 'Moderate-Conservative',
         clientSince: '2008',
@@ -556,7 +556,7 @@ const clientsData = [
         change: '+4.1%',
         positive: true,
         lastContact: 'Yesterday',
-        avatar: '/placeholder.svg?height=80&width=80',
+        avatar: 'client_5.png',
         initials: 'JL',
         riskProfile: 'Aggressive',
         clientSince: '2019',
@@ -1183,6 +1183,10 @@ export function ClientDetailPage({ clientId }: ClientDetailPageProps) {
                                                                 </Badge>
                                                             </div>
                                                         </div>
+
+                                                        <div className="flex cursor-pointer items-center justify-center rounded-lg border bg-foreground p-2 text-white transition-colors hover:bg-foreground/90">
+                                                            <h4 className="text-center text-sm font-medium">News correlation</h4>
+                                                        </div>
                                                     </div>
                                                 ) : (
                                                     <div className="flex h-full flex-col items-center justify-center">
@@ -1552,7 +1556,12 @@ export function ClientDetailPage({ clientId }: ClientDetailPageProps) {
                                                 <CardTitle>Meeting Notes</CardTitle>
                                                 <CardDescription>Records of client interactions</CardDescription>
                                             </div>
-                                            <Button size="sm">Add Note</Button>
+                                            <Button
+                                                size="sm"
+                                                variant="outline"
+                                            >
+                                                Add Note
+                                            </Button>
                                         </div>
                                     </CardHeader>
                                     <CardContent>
