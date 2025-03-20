@@ -115,7 +115,7 @@ export function PortfolioOverview() {
                             <XAxis dataKey="date" />
                             <YAxis tickFormatter={(value) => `$${(value / 1000000).toFixed(1)}M`} />
                             <Tooltip
-                                formatter={(value: number) => [`$${(value / 1000000).toFixed(2)}M`, '']}
+                                formatter={(value: number) => [`$${(value / 1000000).toFixed(2)}M`]}
                                 labelFormatter={(label) => `Date: ${label}`}
                             />
                             <Legend />
