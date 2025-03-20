@@ -35,19 +35,17 @@ export function DashboardPage() {
                         value="overview"
                         className="space-y-6"
                     >
-                        <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
+                        <div className="relative grid grid-cols-1 gap-6 md:grid-cols-3">
                             <div className="md:col-span-2">
-                                <PortfolioOverview />
+                                <div className="sticky top-[10px] flex flex-col gap-6">
+                                    <PortfolioOverview />
+                                </div>
                             </div>
                             <div className="md:col-span-1">
-                                <AIInsights />
-                            </div>
-                        </div>
-
-                        <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
-                            <div className="md:col-span-2">{/* <RecentActivity /> */}</div>
-                            <div className="md:col-span-1">
-                                <RecentActivity />
+                                <div className="sticky top-[10px] flex flex-col gap-6">
+                                    <AIInsights />
+                                    <RecentActivity />
+                                </div>
                             </div>
                         </div>
                     </TabsContent>

@@ -55,9 +55,9 @@ export function AIInsights() {
                     {insights.map((insight) => (
                         <div
                             key={insight.id}
-                            className="flex gap-3 rounded-lg border p-3"
+                            className="bg-re flex gap-3 rounded-lg border p-3"
                         >
-                            <div className={`mt-0.5 rounded-full p-1.5 ${insight.badgeColor}`}>
+                            <div className={`mt-0.5 flex h-6 w-6 items-center justify-center rounded-full p-1.5 ${insight.badgeColor}`}>
                                 <insight.icon className={`h-4 w-4 ${insight.iconColor}`} />
                             </div>
                             <div className="space-y-1">

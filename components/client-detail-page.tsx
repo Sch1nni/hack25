@@ -656,6 +656,36 @@ interface ClientDetailPageProps {
     clientId: string
 }
 
+/** AGGIORNAMENTO DATI PERFORMANCE
+ * * Gestisce l'aggiornamento dei dati di performance del cliente
+ * ! Attenzione: i dati sono simulati
+ * @param currentData array dei dati di performance attuali
+ * @returns nuovo array con dati aggiornati
+ */
+const updatePerformanceData = (currentData: any[]) => {
+    const lastData = currentData[currentData.length - 1]
+    const newPortfolioValue = lastData.portfolio * (1 + (Math.random() * 0.3 - 0.02)) // ±2% change
+    const newBenchmarkValue = lastData.benchmark * (1 + (Math.random() * 0.5 - 0.015)) // ±1.5% change
+
+    const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+    const currentMonth = new Date().getMonth()
+
+    const newData = [
+        ...currentData,
+        {
+            date: months[currentMonth],
+            portfolio: Math.round(newPortfolioValue),
+            benchmark: Math.round(newBenchmarkValue),
+        },
+    ]
+
+    // Keep only last 12 months of data
+    if (newData.length > 12) {
+        return newData.slice(1)
+    }
+    return newData
+}
+
 export function ClientDetailPage({ clientId }: ClientDetailPageProps) {
     const [searchQuery, setSearchQuery] = useState('')
     const [client, setClient] = useState<any>(null)
@@ -666,12 +696,23 @@ export function ClientDetailPage({ clientId }: ClientDetailPageProps) {
     useEffect(() => {
         // Simulate API call to fetch client data
         setLoading(true)
-        setTimeout(() => {
-            const foundClient = clientsData.find((c) => c.id === clientId)
-            setClient(foundClient || null)
-            setLoading(false)
-        }, 500)
+        const foundClient = clientsData.find((c) => c.id === clientId)
+        setClient(foundClient ? { ...foundClient } : null)
+        setLoading(false)
     }, [clientId])
+
+    useEffect(() => {
+        if (!client) return
+
+        const interval = setInterval(() => {
+            setClient((prevClient: any) => ({
+                ...prevClient,
+                performanceData: updatePerformanceData(prevClient.performanceData),
+            }))
+        }, 1000)
+
+        return () => clearInterval(interval)
+    }, [client])
 
     if (loading) {
         return (
@@ -797,6 +838,7 @@ export function ClientDetailPage({ clientId }: ClientDetailPageProps) {
                                                         width="100%"
                                                         height="100%"
                                                     >
+                                                        {/* <div className="text-sm text-muted-foreground">Performance Data: {JSON.stringify(client.performanceData)}</div> */}
                                                         <LineChart data={client.performanceData}>
                                                             <CartesianGrid
                                                                 strokeDasharray="3 3"
@@ -871,7 +913,7 @@ export function ClientDetailPage({ clientId }: ClientDetailPageProps) {
                                                                     alert
                                                                 </Badge>
                                                             </div>
-                                                            <p className="text-xs text-muted-foreground">{client.goals.some((g) => g.name.includes('Retirement')) ? 'Retirement contributions below target. Consider increasing by 10%.' : 'Portfolio rebalancing needed to maintain target risk profile.'}</p>
+                                                            <p className="text-xs text-muted-foreground">{client.goals.some((g: any) => g.name.includes('Retirement')) ? 'Retirement contributions below target. Consider increasing by 10%.' : 'Portfolio rebalancing needed to maintain target risk profile.'}</p>
                                                         </div>
                                                     </div>
 
@@ -921,6 +963,7 @@ export function ClientDetailPage({ clientId }: ClientDetailPageProps) {
                                                             <Progress
                                                                 value={goal.progress}
                                                                 className="h-2"
+                                                                color="#0a8ec9"
                                                             />
                                                             <div className="flex items-center justify-between text-xs text-muted-foreground">
                                                                 <span>Progress: {goal.progress}%</span>
@@ -1017,8 +1060,12 @@ export function ClientDetailPage({ clientId }: ClientDetailPageProps) {
                                                             <Bar
                                                                 dataKey="value"
                                                                 radius={[4, 4, 0, 0]}
-                                                                fill={(entry) => entry.color}
-                                                            />
+                                                            
+                                                            >
+                                                                {client.assetAllocation.map((item: any) => (
+                                                                    <Cell fill={item.color} />
+                                                                ))}
+                                                            </Bar>
                                                         </RechartsBarChart>
                                                     </ResponsiveContainer>
                                                 </div>
@@ -1065,8 +1112,11 @@ export function ClientDetailPage({ clientId }: ClientDetailPageProps) {
                                                             <Bar
                                                                 dataKey="value"
                                                                 radius={[4, 4, 0, 0]}
-                                                                fill={(entry) => entry.color}
-                                                            />
+                                                            >
+                                                                {client.sectorExposure.map((item: any) => (
+                                                                    <Cell fill={item.color} />
+                                                                ))}
+                                                            </Bar>
                                                         </RechartsBarChart>
                                                     </ResponsiveContainer>
                                                 </div>

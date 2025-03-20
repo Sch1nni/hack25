@@ -76,89 +76,92 @@ export function ClientsSection({ onViewClient }: ClientsSectionProps) {
     const filteredClients = clients.filter((client) => client.name.toLowerCase().includes(clientSearch.toLowerCase()) || client.email.toLowerCase().includes(clientSearch.toLowerCase()))
 
     return (
-        <Card className="w-full">
-            <CardHeader>
-                <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
-                    <div>
-                        <CardTitle>Client Portfolios</CardTitle>
-                        <CardDescription>Overview of all client accounts and performance</CardDescription>
+        <>
+            {' '}
+            <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+                <div>
+                    <CardTitle>Client Portfolios</CardTitle>
+                    <CardDescription>Overview of all client accounts and performance</CardDescription>
+                </div>
+                <div className="flex items-center gap-2">
+                    <div className="relative w-full md:w-64">
+                        <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
+                        <Input
+                            type="search"
+                            placeholder="Search clients..."
+                            className="w-full pl-8"
+                            value={clientSearch}
+                            onChange={(e) => setClientSearch(e.target.value)}
+                        />
                     </div>
-                    <div className="flex items-center gap-2">
-                        <div className="relative w-full md:w-64">
-                            <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
-                            <Input
-                                type="search"
-                                placeholder="Search clients..."
-                                className="w-full pl-8"
-                                value={clientSearch}
-                                onChange={(e) => setClientSearch(e.target.value)}
-                            />
-                        </div>
-                        {/* <Button size="sm">
+                    {/* <Button size="sm">
               <Plus className="h-4 w-4" />
               Add Client
             </Button> */}
-                    </div>
                 </div>
-            </CardHeader>
-            <CardContent>
-                <div className="rounded-md border">
-                    <div className="grid grid-cols-5 p-4 text-sm font-medium text-muted-foreground">
-                        <div>Client</div>
-                        <div>Portfolio Value</div>
-                        <div>Change</div>
-                        <div>Last Contact</div>
-                        <div className="text-right">Actions</div>
-                    </div>
-                    <div className="divide-y">
-                        {filteredClients.map((client) => (
-                            <div
-                                key={client.id}
-                                className="grid grid-cols-5 items-center p-4"
-                            >
-                                <div className="flex items-center gap-3">
-                                    <Avatar className="h-10 w-10">
-                                        <AvatarImage
-                                            src={client.avatar}
-                                            alt={client.name}
-                                        />
-                                        <AvatarFallback>{client.initials}</AvatarFallback>
-                                    </Avatar>
-                                    <div>
-                                        <div className="font-medium">{client.name}</div>
-                                        <div className="text-sm text-muted-foreground">{client.email}</div>
-                                    </div>
-                                </div>
-                                <div className="font-medium">{client.portfolioValue}</div>
+            </div>
+            <div className="rounded-md border">
+                <div className="grid grid-cols-5 p-4 text-sm font-medium text-muted-foreground">
+                    <div>Client</div>
+                    <div>Portfolio Value</div>
+                    <div>Change</div>
+                    <div>Last Contact</div>
+                    <div className="text-right">Actions</div>
+                </div>
+                <div className="divide-y">
+                    {filteredClients.map((client) => (
+                        <div
+                            key={client.id}
+                            className="grid grid-cols-5 items-center p-4"
+                        >
+                            <div className="flex items-center gap-3">
+                                <Avatar
+                                    className="h-10 w-10"
+                                    onClick={() => onViewClient && onViewClient(client.id)}
+                                >
+                                    <AvatarImage
+                                        src={client.avatar}
+                                        alt={client.name}
+                                    />
+                                    <AvatarFallback>{client.initials}</AvatarFallback>
+                                </Avatar>
                                 <div>
-                                    <Badge
-                                        variant="outline"
-                                        className={client.positive ? 'text-emerald-500' : 'text-red-500'}
-                                    >
-                                        <div className="flex items-center gap-1">
-                                            {client.positive ? <ArrowUpRight className="h-3 w-3" /> : <ArrowDownRight className="h-3 w-3" />}
-                                            {client.change}
-                                        </div>
-                                    </Badge>
-                                </div>
-                                <div className="text-muted-foreground">{client.lastContact}</div>
-                                <div className="flex justify-end gap-2">
-                                    <Button
-                                        variant="outline"
-                                        size="sm"
+                                    <div
+                                        className="cursor-pointer font-medium transition-all duration-300 hover:text-info"
                                         onClick={() => onViewClient && onViewClient(client.id)}
                                     >
-                                        View
-                                    </Button>
-                                    {/* <Button variant="outline" size="sm">
-                    Contact
-                  </Button> */}
+                                        {client.name}
+                                    </div>
+                                    <div className="text-sm text-muted-foreground">{client.email}</div>
                                 </div>
                             </div>
-                        ))}
-                    </div>
+                            <div className="font-medium">{client.portfolioValue}</div>
+                            <div>
+                                <Badge
+                                    variant="outline"
+                                    className={client.positive ? 'text-emerald-500' : 'text-red-500'}
+                                >
+                                    <div className="flex items-center gap-1">
+                                        {client.positive ? <ArrowUpRight className="h-3 w-3" /> : <ArrowDownRight className="h-3 w-3" />}
+                                        {client.change}
+                                    </div>
+                                </Badge>
+                            </div>
+                            <div className="text-muted-foreground">{client.lastContact}</div>
+                            <div className="flex justify-end gap-2">
+                                <Button
+                                    variant="outline"
+                                    style={{ backgroundColor: '#0a8ec9', color: 'white' }}
+                                    size="sm"
+                                    onClick={() => onViewClient && onViewClient(client.id)}
+                                >
+                                    View
+                                </Button>
+                            </div>
+                        </div>
+                    ))}
                 </div>
-            </CardContent>
-        </Card>
+            </div>
+        </>
     )
 }
