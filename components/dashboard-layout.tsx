@@ -166,7 +166,7 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
                         <div className="flex h-8 w-8 items-center justify-center rounded-md bg-primary">
                             <BarChart3 className="h-5 w-5 text-primary-foreground" />
                         </div>
-                        <span className="font-semibold">WealthAI</span>
+                        <span className="font-semibold">SimpleSIX</span>
                     </div>
                 </SidebarHeader>
 
@@ -218,8 +218,9 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
                     <div className="flex items-center gap-2">
                         <Avatar className="h-8 w-8">
                             <AvatarImage
-                                src="/placeholder.svg?height=32&width=32"
+                                src="https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?q=80&w=2662&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
                                 alt="User"
+                                className="object-cover"
                             />
                             <AvatarFallback>JD</AvatarFallback>
                         </Avatar>

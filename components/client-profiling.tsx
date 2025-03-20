@@ -21,11 +21,11 @@ const engagementData = [
 
 // Client interests based on behavior
 const interestData = [
-    { category: 'Technology', score: 85, color: '#0ea5e9' },
-    { category: 'Healthcare', score: 45, color: '#8b5cf6' },
-    { category: 'Automotive', score: 92, color: '#f97316' },
-    { category: 'Real Estate', score: 60, color: '#10b981' },
-    { category: 'Energy', score: 30, color: '#eab308' },
+    { category: 'Sportswear', score: 45, color: '#f97316' },
+    { category: 'Luxury Cars', score: 30, color: '#10b981' },
+    { category: 'Digital Entertainment', score: 20, color: '#8b5cf6' },
+    { category: 'Consumer Electronics', score: 10, color: '#0ea5e9' },
+    { category: 'Tobacco', score: 5, color: '#94a3b8' },
 ]
 
 // Disclosed vs. Undisclosed goals
@@ -82,7 +82,7 @@ export function ClientProfiling() {
             <CardHeader>
                 <div className="flex items-center justify-between">
                     <div>
-                        <CardTitle>Client Profiling & Engagement</CardTitle>
+                        <CardTitle className="mb-2">Client Profiling & Engagement</CardTitle>
                         <CardDescription>Comprehensive view of client behavior, interests, and hidden goals</CardDescription>
                     </div>
                     <Badge

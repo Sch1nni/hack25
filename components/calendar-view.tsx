@@ -23,7 +23,7 @@ const calendarEvents = [
         client: {
             id: '1',
             name: 'William Anderson',
-            avatar: '/client_1.png',
+            avatar: 'client_1.png',
             initials: 'ET',
         },
         location: 'Video Call',
@@ -39,7 +39,7 @@ const calendarEvents = [
         client: {
             id: '2',
             name: 'Michael Chen',
-            avatar: '/client_2.png',
+            avatar: 'client_2.png',
             initials: 'MC',
         },
         location: 'Office',
@@ -55,7 +55,7 @@ const calendarEvents = [
         client: {
             id: '3',
             name: 'Sarah Johnson',
-            avatar: '/client_3.png',
+            avatar: 'client_3.png',
             initials: 'SJ',
         },
         location: 'Phone Call',
@@ -71,7 +71,7 @@ const calendarEvents = [
         client: {
             id: '4',
             name: 'David Williams',
-            avatar: '/client_4.png',
+            avatar: 'client_4.png',
             initials: 'DW',
         },
         location: 'Office',
@@ -87,7 +87,7 @@ const calendarEvents = [
         client: {
             id: '5',
             name: 'Jennifer Lee',
-            avatar: '/client_5.png',
+            avatar: 'client_5.png',
             initials: 'JL',
         },
         location: 'Video Call',
@@ -258,7 +258,7 @@ export function CalendarView() {
                                                 <div className="mt-2 flex items-center">
                                                     <Avatar className="mr-2 h-6 w-6">
                                                         <AvatarImage
-                                                            src={event.client.avatar}
+                                                            src={`/assets/imgs/${event.client.avatar}`}
                                                             alt={event.client.name}
                                                         />
                                                         <AvatarFallback>{event.client.initials}</AvatarFallback>
@@ -356,7 +356,7 @@ export function CalendarView() {
                                                     <div className="mt-2 flex items-center">
                                                         <Avatar className="mr-2 h-6 w-6">
                                                             <AvatarImage
-                                                                src={event.client.avatar}
+                                                                src={`/assets/imgs/${event.client.avatar}`}
                                                                 alt={event.client.name}
                                                             />
                                                             <AvatarFallback>{event.client.initials}</AvatarFallback>
@@ -560,16 +560,24 @@ export function CalendarView() {
                                         key={event.id}
                                         className="flex items-start gap-3 rounded-lg border p-3"
                                     >
-                                        <Avatar className="h-8 w-8">
+                                        <Avatar
+                                            className="h-8 w-8 cursor-pointer"
+                                            onClick={() => (window.location.href = `/client/${event.client?.id}`)}
+                                        >
                                             <AvatarImage
-                                                src={event.client?.avatar}
+                                                src={`/assets/imgs/${event.client?.avatar}`}
                                                 alt={event.client?.name}
                                             />
                                             <AvatarFallback>{event.client?.initials}</AvatarFallback>
                                         </Avatar>
                                         <div className="flex-1 space-y-1">
                                             <div className="flex items-center justify-between">
-                                                <h4 className="text-sm font-medium">{event.client?.name}</h4>
+                                                <h4
+                                                    className="cursor-pointer text-sm font-medium hover:underline"
+                                                    onClick={() => (window.location.href = `/client/${event.client?.id}`)}
+                                                >
+                                                    {event.client?.name}
+                                                </h4>
                                                 <Badge
                                                     variant={event.status === 'confirmed' ? 'outline' : 'secondary'}
                                                     className="text-[10px]"

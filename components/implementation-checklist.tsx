@@ -126,7 +126,7 @@ export function ImplementationChecklist() {
             <CardHeader>
                 <div className="flex items-center justify-between">
                     <div>
-                        <CardTitle>Implementation Checklist</CardTitle>
+                        <CardTitle className="mb-2">Implementation Checklist</CardTitle>
                         <CardDescription>Coordinated action plan for holistic wealth management</CardDescription>
                     </div>
                     <div className="flex items-center gap-2">
@@ -143,7 +143,7 @@ export function ImplementationChecklist() {
                             size="sm"
                             variant="outline"
                         >
-                            <PlusCircle className="mr-2 h-4 w-4" />
+                            <PlusCircle className="h-4 w-4" />
                             Add Task
                         </Button>
                     </div>

@@ -4,7 +4,12 @@ import './globals.css'
 export const metadata: Metadata = {
     title: 'Wealth AI',
     description: 'Wealth AI',
-    generator: 'wealthai.com',
+    generator: 'SimpleSIX.com',
+    icons: {
+        icon: '/icon.png',
+        shortcut: '/shortcut-icon.png',
+        apple: '/apple-icon.png',
+    },
 }
 
 export default function RootLayout({
