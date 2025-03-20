@@ -6,7 +6,7 @@ export default function ClientDetail({ params }: { params: { id: string } }) {
     return (
         <ThemeProvider
             attribute="class"
-            defaultTheme="system"
+            defaultTheme="light"
             enableSystem
         >
             <SidebarProvider>

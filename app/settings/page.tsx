@@ -8,7 +8,7 @@ export default function Settings() {
     return (
         <ThemeProvider
             attribute="class"
-            defaultTheme="system"
+            defaultTheme="light"
             enableSystem
         >
             <SidebarProvider>

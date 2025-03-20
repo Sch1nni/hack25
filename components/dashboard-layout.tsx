@@ -86,7 +86,7 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
     }
 
     return (
-        <div className="flex h-screen overflow-hidden bg-background">
+        <div className="flex h-screen w-full overflow-hidden bg-background">
             <Sidebar
                 variant="floating"
                 collapsible="icon"

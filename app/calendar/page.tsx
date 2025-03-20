@@ -8,7 +8,7 @@ export default function Calendar() {
     return (
         <ThemeProvider
             attribute="class"
-            defaultTheme="system"
+            defaultTheme="light"
             enableSystem
         >
             <SidebarProvider>

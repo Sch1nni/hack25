@@ -6,7 +6,7 @@ export default function Home() {
     return (
         <ThemeProvider
             attribute="class"
-            defaultTheme="system"
+            defaultTheme="light"
             enableSystem
         >
             <SidebarProvider>

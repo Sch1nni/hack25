@@ -732,7 +732,7 @@ export function ClientDetailPage({ clientId }: ClientDetailPageProps) {
                     <ClientInfoCard client={client} />
                     <div className="w-full space-y-6 md:w-3/4">
                         <Tabs defaultValue="overview">
-                            <TabsList className="mb-4">
+                            <TabsList className="mb-4 flex w-full justify-between">
                                 <TabsTrigger value="overview">Overview</TabsTrigger>
                                 <TabsTrigger value="allocation">Allocation</TabsTrigger>
                                 <TabsTrigger value="geography">Geography</TabsTrigger>
