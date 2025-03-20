@@ -176,6 +176,53 @@ interface VoiceResponse {
     timestamp: string
 }
 
+/** CALCOLO STATISTICHE PORTFOLIO
+ * * Calcola le statistiche correnti del portfolio
+ * ? Restituisce i valori correnti, YTD e differenza predizione
+ * ! Richiede dati filtrati validi
+ */
+const calculatePortfolioStats = (filteredData: any[]) => {
+    if (!filteredData.length) return { currentValue: 0, currentChange: 0, ytdReturn: 0, ytdPercentage: 0, predictionDiff: 0 }
+
+    // Current Value (last non-null portfolio value)
+    const lastPortfolioValue = [...filteredData].reverse().find((item) => item.portfolio !== null)?.portfolio || 0
+
+    // Calculate current change percentage (comparing with first value in filtered range)
+    const firstValue = filteredData.find((item) => item.portfolio !== null)?.portfolio || lastPortfolioValue
+    const currentChange = ((lastPortfolioValue - firstValue) / firstValue) * 100
+
+    // YTD Return
+    const startOfYear = new Date(new Date().getFullYear(), 0, 1).toISOString().split('T')[0]
+    const yearStartValue = filteredData.find((item) => item.date >= startOfYear && item.portfolio !== null)?.portfolio || firstValue
+    const ytdReturn = lastPortfolioValue - yearStartValue
+    const ytdPercentage = ((lastPortfolioValue - yearStartValue) / yearStartValue) * 100
+
+    // Prediction Difference
+    const lastPrediction = [...filteredData].reverse().find((item) => item.pastPrediction !== null || item.futurePrediction !== null)
+    const predictionValue = lastPrediction?.pastPrediction || lastPrediction?.futurePrediction || lastPortfolioValue
+    const predictionDiff = ((lastPortfolioValue - predictionValue) / predictionValue) * 100
+
+    return {
+        currentValue: lastPortfolioValue,
+        currentChange,
+        ytdReturn,
+        ytdPercentage,
+        predictionDiff,
+    }
+}
+
+/** FORMATTA VALORE MONETARIO
+ * * Converte un numero in formato monetario leggibile
+ * ? Aggiunge suffissi K, M, B per migliore leggibilità
+ */
+const formatCurrency = (value: number): string => {
+    const absValue = Math.abs(value)
+    if (absValue >= 1e9) return `${(value / 1e9).toFixed(1)}B`
+    if (absValue >= 1e6) return `${(value / 1e6).toFixed(1)}M`
+    if (absValue >= 1e3) return `${(value / 1e3).toFixed(1)}K`
+    return value.toFixed(0)
+}
+
 export function PortfolioOverviewClient({ onlyChart, presettedTimeframe }: { onlyChart?: boolean; presettedTimeframe?: string }) {
     const [timeframe, setTimeframe] = useState(presettedTimeframe || '1M')
 
@@ -184,6 +231,9 @@ export function PortfolioOverviewClient({ onlyChart, presettedTimeframe }: { onl
 
     // Filter data based on range_dates
     const filteredData = filterDataByDateRange(combinedData, range_dates)
+
+    // Calculate stats
+    const stats = calculatePortfolioStats(filteredData)
 
     let content = (
         <div className="h-[300px] w-full">
@@ -314,14 +364,14 @@ export function PortfolioOverviewClient({ onlyChart, presettedTimeframe }: { onl
                 </Tabs>
             </CardHeader>
             <CardContent>
-                <div className="mb-6 grid grid-cols-1 gap-4 md:grid-cols-3">
+                <div className="mb-6 grid grid-cols-1 gap-4 md:grid-cols-4">
                     <div className="space-y-1">
                         <p className="text-sm text-muted-foreground">Current Value</p>
                         <div className="flex items-center gap-2">
-                            <span className="text-2xl font-bold">$4.5M</span>
-                            <div className="flex items-center text-sm font-medium text-emerald-500">
-                                <ArrowUpRight className="h-4 w-4" />
-                                <span>12.5%</span>
+                            <span className="text-2xl font-bold">${formatCurrency(stats.currentValue)}</span>
+                            <div className={`flex items-center text-sm font-medium ${stats.currentChange >= 0 ? 'text-emerald-500' : 'text-red-500'}`}>
+                                {stats.currentChange >= 0 ? <ArrowUpRight className="h-4 w-4" /> : <ArrowUpRight className="h-4 w-4 rotate-180" />}
+                                <span>{Math.abs(stats.currentChange).toFixed(1)}%</span>
                             </div>
                         </div>
                     </div>
@@ -329,24 +379,26 @@ export function PortfolioOverviewClient({ onlyChart, presettedTimeframe }: { onl
                     <div className="space-y-1">
                         <p className="text-sm text-muted-foreground">YTD Return</p>
                         <div className="flex items-center gap-2">
-                            <span className="text-2xl font-bold">+$560K</span>
-                            <div className="flex items-center text-sm font-medium text-emerald-500">
-                                <TrendingUp className="h-4 w-4" />
-                                <span>8.2%</span>
+                            <span className="text-2xl font-bold">
+                                {stats.ytdReturn >= 0 ? '+' : '-'}${formatCurrency(Math.abs(stats.ytdReturn))}
+                            </span>
+                            <div className={`flex items-center text-sm font-medium ${stats.ytdPercentage >= 0 ? 'text-emerald-500' : 'text-red-500'}`}>
+                                {stats.ytdPercentage >= 0 ? <TrendingUp className="h-4 w-4" /> : <TrendingUp className="h-4 w-4 rotate-180" />}
+                                <span>{Math.abs(stats.ytdPercentage).toFixed(1)}%</span>
                             </div>
                         </div>
                     </div>
 
-                    <div className="space-y-1">
-                        <p className="text-sm text-muted-foreground">prediction Diff</p>
+                    {/* <div className="space-y-1">
+                        <p className="text-sm text-muted-foreground">Prediction Diff</p>
                         <div className="flex items-center gap-2">
-                            <span className="text-2xl font-bold">+3.8%</span>
-                            <div className="flex items-center text-sm font-medium text-emerald-500">
-                                <ArrowUpRight className="h-4 w-4" />
-                                <span>Outperforming</span>
+                            <span className="text-2xl font-bold">{stats.predictionDiff >= 0 ? '+' : '-'}{Math.abs(stats.predictionDiff).toFixed(1)}%</span>
+                            <div className={`flex items-center text-sm font-medium ${stats.predictionDiff >= 0 ? 'text-emerald-500' : 'text-red-500'}`}>
+                                {stats.predictionDiff >= 0 ? <ArrowUpRight className="h-4 w-4" /> : <ArrowUpRight className="h-4 w-4 rotate-180" />}
+                                <span>{stats.predictionDiff >= 0 ? 'Outperforming' : 'Underperforming'}</span>
                             </div>
                         </div>
-                    </div>
+                    </div> */}
                 </div>
 
                 {content}

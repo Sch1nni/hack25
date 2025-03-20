@@ -1,0 +1,39 @@
+{
+    "companies": [
+        {
+            "name": "Apple",
+            "type": "Technology",
+            "geographic_allocation": "United States",
+            "sector": "Consumer Electronics",
+            "weight": 0.2
+        },
+        {
+            "name": "Bilibili",
+            "type": "Technology",
+            "geographic_allocation": "China",
+            "sector": "Digital Entertainment",
+            "weight": 0.2
+        },
+        {
+            "name": "Ferrari",
+            "type": "Automotive",
+            "geographic_allocation": "Italy",
+            "sector": "Luxury Cars",
+            "weight": 0.2
+        },
+        {
+            "name": "Philip Morris",
+            "type": "Multinational",
+            "geographic_allocation": "United States",
+            "sector": "Tobacco",
+            "weight": 0.2
+        },
+        {
+            "name": "Nike",
+            "type": "Apparel",
+            "geographic_allocation": "United States",
+            "sector": "Sportswear",
+            "weight": 0.2
+        }
+    ]
+}

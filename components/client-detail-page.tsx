@@ -48,31 +48,21 @@ const clientsData = [
             { name: 'Vacation Home', progress: 85, target: '$800K', current: '$680K' },
         ],
         assetAllocation: [
-            { name: 'Equities', value: 55, color: '#0ea5e9' },
-            { name: 'Fixed Income', value: 25, color: '#8b5cf6' },
-            { name: 'Real Estate', value: 10, color: '#f97316' },
-            { name: 'Alternatives', value: 5, color: '#10b981' },
-            { name: 'Cash', value: 5, color: '#94a3b8' },
+            { name: 'United States', value: 60, color: '#0ea5e9' },
+            { name: 'China', value: 20, color: '#8b5cf6' },
+            { name: 'Italy', value: 20, color: '#f97316' },
         ],
         sectorExposure: [
-            { name: 'Technology', value: 25, color: '#0ea5e9' },
-            { name: 'Healthcare', value: 18, color: '#8b5cf6' },
-            { name: 'Financials', value: 15, color: '#f97316' },
-            { name: 'Consumer', value: 12, color: '#10b981' },
-            { name: 'Energy', value: 10, color: '#eab308' },
-            { name: 'Industrials', value: 8, color: '#ec4899' },
-            { name: 'Materials', value: 7, color: '#6366f1' },
-            { name: 'Utilities', value: 5, color: '#94a3b8' },
+            { name: 'Sportswear', value: 45, color: '#94a3b8' },
+            { name: 'Luxury Cars', value: 30, color: '#f97316' },
+            { name: 'Digital Entertainment', value: 20, color: '#8b5cf6' },
+            { name: 'Consumer Electronics', value: 10, color: '#0ea5e9' },
+            { name: 'Tobacco', value: 5, color: '#10b981' },
         ],
         geographicAllocation: [
             { country: 'United States', iso_a3: 'USA', value: 60, color: '#0ea5e9' },
-            { country: 'Germany', iso_a3: 'DEU', value: 15, color: '#8b5cf6' },
-            { country: 'China', iso_a3: 'CHN', value: 10, color: '#f97316' },
-            { country: 'Japan', iso_a3: 'JPN', value: 5, color: '#10b981' },
-            { country: 'India', iso_a3: 'IND', value: 4, color: '#eab308' },
-            { country: 'Brazil', iso_a3: 'BRA', value: 3, color: '#ec4899' },
-            { country: 'Canada', iso_a3: 'CAN', value: 2, color: '#6366f1' },
-            { country: 'Australia', iso_a3: 'AUS', value: 1, color: '#94a3b8' },
+            { country: 'China', iso_a3: 'CHN', value: 20, color: '#8b5cf6' },
+            { country: 'Italy', iso_a3: 'ITA', value: 20, color: '#f97316' },
         ],
         countryDetails: [
             {
@@ -804,38 +794,35 @@ export function ClientDetailPage({ clientId }: ClientDetailPageProps) {
                                                 <Card>
                                                     <CardHeader className="pb-2">
                                                         <CardTitle className="text-base">AI-Powered Insights</CardTitle>
-                                                    <CardDescription>Market Performance Report: March 19-20, 2024 for {client.name}</CardDescription>
-                                                </CardHeader>
-                                                <CardContent>
-                                                    <div className="market-report">
+                                                        <CardDescription>Market Performance Report: March 19-20, 2024 for {client.name}</CardDescription>
+                                                    </CardHeader>
+                                                    <CardContent>
+                                                        <div className="market-report">
+                                                            <hr className="border-t border-gray-200 py-2" />
 
-                                                        <hr className="border-t border-gray-200 py-2" />
+                                                            <section className="overview">
+                                                                <h2 className="text-base font-bold text-info">Overview</h2>
+                                                                <p className="text-sm text-muted-foreground">The market showed strong positive momentum across major tech and financial stocks over the past 24 hours, with all analyzed stocks posting gains between 1.08% and 1.99%.</p>
+                                                            </section>
 
-                                                        <section className="overview">
-                                                            <h2 className="text-base text-info font-bold">Overview</h2>
-                                                            <p className="text-sm text-muted-foreground">The market showed strong positive momentum across major tech and financial stocks over the past 24 hours, with all analyzed stocks posting gains between 1.08% and 1.99%.</p>
-                                                        </section>
+                                                            <section className="top-performers">
+                                                                {/* <h2 className="text-base text-info font-bold">Top Performers</h2> */}
+                                                                <br />
+                                                                <article className="stock">
+                                                                    <h3 className="text-sm font-bold">Goldman Sachs Group (GS) +1.99%</h3>
+                                                                    <p className="text-xs text-muted-foreground">Goldman Sachs led the pack with a nearly 2% gain after the Federal Reserve's latest policy meeting signaled potential rate cuts later this year. The company's investment banking division is reportedly seeing increased M&A activity in anticipation of a more favorable interest rate environment. Goldman's recent announcement of expanding its wealth management services for ultra-high-net-worth individuals has also contributed to investor confidence as the firm diversifies beyond traditional investment banking.</p>
+                                                                </article>
 
+                                                                <br />
 
-
-                                                        <section className="top-performers">
-                                                            {/* <h2 className="text-base text-info font-bold">Top Performers</h2> */}
-<br />
-                                                            <article className="stock">
-                                                                <h3 className="text-sm font-bold">Goldman Sachs Group (GS) +1.99%</h3>
-                                                                <p className="text-xs text-muted-foreground">Goldman Sachs led the pack with a nearly 2% gain after the Federal Reserve's latest policy meeting signaled potential rate cuts later this year. The company's investment banking division is reportedly seeing increased M&A activity in anticipation of a more favorable interest rate environment. Goldman's recent announcement of expanding its wealth management services for ultra-high-net-worth individuals has also contributed to investor confidence as the firm diversifies beyond traditional investment banking.</p>
-                                                            </article>
-
-                                                            <br />
-
-                                                            <article className="stock">
-                                                                <h3 className="text-sm font-bold">Meta Platforms (META) +1.85%</h3>
-                                                                <p className="text-xs text-muted-foreground">Meta shares surged following reports of strong engagement metrics for its new AI-powered personalization features on Instagram and Facebook. The company's recent partnership with leading AI chip providers (announced yesterday) to develop custom hardware for its metaverse initiatives has been well-received by analysts, with several upgrading their price targets. Meta's consistent progress in monetizing its messaging platforms has also provided additional momentum.</p>
-                                                            </article>
-                                                        </section>
-                                                    </div>
-                                                </CardContent>
-                                            </Card>
+                                                                <article className="stock">
+                                                                    <h3 className="text-sm font-bold">Meta Platforms (META) +1.85%</h3>
+                                                                    <p className="text-xs text-muted-foreground">Meta shares surged following reports of strong engagement metrics for its new AI-powered personalization features on Instagram and Facebook. The company's recent partnership with leading AI chip providers (announced yesterday) to develop custom hardware for its metaverse initiatives has been well-received by analysts, with several upgrading their price targets. Meta's consistent progress in monetizing its messaging platforms has also provided additional momentum.</p>
+                                                                </article>
+                                                            </section>
+                                                        </div>
+                                                    </CardContent>
+                                                </Card>
                                             )}
                                             <PortfolioOverviewClient />
                                             <Card>
@@ -1253,79 +1240,6 @@ export function ClientDetailPage({ clientId }: ClientDetailPageProps) {
                                                         <p className="text-center text-muted-foreground">Select a region on the map or from the list to view detailed holdings</p>
                                                     </div>
                                                 )}
-                                            </div>
-                                        </div>
-
-                                        <div className="mt-6">
-                                            <h3 className="mb-4 font-medium">Geographic Performance</h3>
-                                            <div className="h-[250px]">
-                                                <ResponsiveContainer
-                                                    width="100%"
-                                                    height="100%"
-                                                >
-                                                    <ComposedChart
-                                                        data={[
-                                                            {
-                                                                region: 'North America',
-                                                                allocation: client.geographicAllocation.find((g: any) => g.country === 'United States')?.value + (client.geographicAllocation.find((g: any) => g.country === 'Canada')?.value || 0),
-                                                                performance: 8.2,
-                                                            },
-                                                            {
-                                                                region: 'Europe',
-                                                                allocation: client.geographicAllocation.find((g: any) => g.country === 'Europe')?.value,
-                                                                performance: 4.5,
-                                                            },
-                                                            {
-                                                                region: 'Asia',
-                                                                allocation: (client.geographicAllocation.find((g: any) => g.country === 'China')?.value || 0) + (client.geographicAllocation.find((g: any) => g.country === 'Japan')?.value || 0) + (client.geographicAllocation.find((g: any) => g.country === 'India')?.value || 0),
-                                                                performance: 6.8,
-                                                            },
-                                                            {
-                                                                region: 'Latin America',
-                                                                allocation: client.geographicAllocation.find((g: any) => g.country === 'Brazil')?.value,
-                                                                performance: 3.2,
-                                                            },
-                                                            {
-                                                                region: 'Other',
-                                                                allocation: client.geographicAllocation.find((g: any) => g.country === 'Other')?.value,
-                                                                performance: 5.1,
-                                                            },
-                                                        ]}
-                                                    >
-                                                        <CartesianGrid
-                                                            strokeDasharray="3 3"
-                                                            opacity={0.2}
-                                                        />
-                                                        <XAxis dataKey="region" />
-                                                        <YAxis
-                                                            yAxisId="left"
-                                                            orientation="left"
-                                                            tickFormatter={(value) => `${value}%`}
-                                                        />
-                                                        <YAxis
-                                                            yAxisId="right"
-                                                            orientation="right"
-                                                            tickFormatter={(value) => `${value}%`}
-                                                        />
-                                                        <Tooltip />
-                                                        <Legend />
-                                                        <Bar
-                                                            yAxisId="left"
-                                                            dataKey="allocation"
-                                                            name="Allocation"
-                                                            fill="#0ea5e9"
-                                                            radius={[4, 4, 0, 0]}
-                                                        />
-                                                        <Line
-                                                            yAxisId="right"
-                                                            type="monotone"
-                                                            dataKey="performance"
-                                                            name="YTD Performance"
-                                                            stroke="#f97316"
-                                                            strokeWidth={2}
-                                                        />
-                                                    </ComposedChart>
-                                                </ResponsiveContainer>
                                             </div>
                                         </div>
                                     </CardContent>
