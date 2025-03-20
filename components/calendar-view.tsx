@@ -462,7 +462,10 @@ export function CalendarView() {
                         </TabsList>
                     </Tabs>
 
-                    <Button variant="outline" style={{ backgroundColor: 'hsl(var(--primary))', color: 'white' }}>
+                    <Button
+                        variant="outline"
+                        style={{ backgroundColor: 'hsl(var(--primary))', color: 'white' }}
+                    >
                         <Plus className="h-4 w-4" />
                         Add Event
                     </Button>

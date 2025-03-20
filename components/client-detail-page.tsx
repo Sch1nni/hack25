@@ -17,6 +17,12 @@ import { ImplementationChecklist } from '@/components/implementation-checklist'
 import { WorldMap } from '@/components/world-map'
 import { ClientInfoCard } from '@/components/client-info-card'
 
+let show_ai_report = false
+
+function setShowAiReport(value: boolean) {
+    show_ai_report = value
+}
+
 // Mock client data
 const clientsData = [
     {
@@ -791,154 +797,165 @@ export function ClientDetailPage({ clientId }: ClientDetailPageProps) {
                                 value="overview"
                                 className="space-y-6"
                             >
-                                <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
+                                <div className="relative grid grid-cols-1 gap-6 md:grid-cols-3">
                                     <div className="md:col-span-2">
-                                        <PortfolioOverviewClient />
-                                    </div>
-                                    <div className="md:col-span-1">
-                                        <Card>
-                                            <CardHeader className="pb-2">
-                                                <CardTitle className="text-base">AI-Powered Insights</CardTitle>
-                                                <CardDescription>Personalized insights for {client.name}</CardDescription>
-                                            </CardHeader>
-                                            <CardContent>
-                                                <div className="space-y-4">
-                                                    <div className="flex gap-3 rounded-lg border p-3">
-                                                        <div className="mt-0.5 flex h-6 w-6 items-center justify-center rounded-full bg-emerald-500/10 p-1.5 text-emerald-500">
-                                                            <TrendingUp className="h-4 w-4" />
-                                                        </div>
-                                                        <div className="space-y-1">
-                                                            <div className="flex items-center gap-2">
-                                                                <h4 className="text-sm font-medium">Portfolio Opportunity</h4>
-                                                                <Badge
-                                                                    variant="secondary"
-                                                                    className="text-[10px]"
-                                                                >
-                                                                    opportunity
-                                                                </Badge>
-                                                            </div>
-                                                            <p className="text-xs text-muted-foreground">{client.riskProfile === 'Aggressive' ? 'Consider increasing allocation to emerging markets for higher growth potential.' : client.riskProfile === 'Conservative' ? 'Municipal bonds currently offer attractive tax-adjusted yields for your profile.' : 'Technology sector appears undervalued based on your investment criteria.'}</p>
-                                                        </div>
-                                                    </div>
-
-                                                    <div className="flex gap-3 rounded-lg border p-3">
-                                                        <div className="mt-0.5 flex h-6 w-6 items-center justify-center rounded-full bg-amber-500/10 p-1.5 text-amber-500">
-                                                            <AlertCircle className="h-4 w-4" />
-                                                        </div>
-                                                        <div className="space-y-1">
-                                                            <div className="flex items-center gap-2">
-                                                                <h4 className="text-sm font-medium">Action Required</h4>
-                                                                <Badge
-                                                                    variant="secondary"
-                                                                    className="text-[10px]"
-                                                                >
-                                                                    alert
-                                                                </Badge>
-                                                            </div>
-                                                            <p className="text-xs text-muted-foreground">{client.goals.some((g: any) => g.name.includes('Retirement')) ? 'Retirement contributions below target. Consider increasing by 10%.' : 'Portfolio rebalancing needed to maintain target risk profile.'}</p>
-                                                        </div>
-                                                    </div>
-
-                                                    <div className="flex gap-3 rounded-lg border p-3">
-                                                        <div className="mt-0.5 flex h-6 w-6 items-center justify-center rounded-full bg-blue-500/10 p-1.5 text-blue-500">
-                                                            <CheckCircle2 className="h-4 w-4" />
-                                                        </div>
-                                                        <div className="space-y-1">
-                                                            <div className="flex items-center gap-2">
-                                                                <h4 className="text-sm font-medium">Tax Optimization</h4>
-                                                                <Badge
-                                                                    variant="secondary"
-                                                                    className="text-[10px]"
-                                                                >
-                                                                    strategy
-                                                                </Badge>
-                                                            </div>
-                                                            <p className="text-xs text-muted-foreground">Tax-loss harvesting opportunity identified in international equity positions.</p>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </CardContent>
-                                        </Card>
-                                    </div>
-                                </div>
-
-                                <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
-                                    <div className="md:col-span-2">
-                                        <Card>
-                                            <CardHeader className="pb-2">
-                                                <CardTitle className="text-base">Financial Goals</CardTitle>
-                                                <CardDescription>Progress toward key objectives</CardDescription>
-                                            </CardHeader>
-                                            <CardContent>
-                                                <div className="space-y-4">
-                                                    {client.goals.map((goal: any, index: number) => (
-                                                        <div
-                                                            key={index}
-                                                            className="space-y-2"
-                                                        >
-                                                            <div className="flex items-center justify-between">
-                                                                <span className="text-sm font-medium">{goal.name}</span>
-                                                                <span className="text-sm">
-                                                                    {goal.current} of {goal.target}
-                                                                </span>
-                                                            </div>
-                                                            <Progress
-                                                                value={goal.progress}
-                                                                className="h-2"
-                                                                color="#0a8ec9"
-                                                            />
-                                                            <div className="flex items-center justify-between text-xs text-muted-foreground">
-                                                                <span>Progress: {goal.progress}%</span>
-                                                                <span>Target: 100%</span>
-                                                            </div>
-                                                        </div>
-                                                    ))}
-                                                </div>
-                                            </CardContent>
-                                        </Card>
-                                    </div>
-
-                                    <div className="md:col-span-1">
-                                        <Card>
-                                            <CardHeader className="pb-2">
-                                                <CardTitle className="text-base">Recent Activity</CardTitle>
-                                                <CardDescription>Latest transactions</CardDescription>
-                                            </CardHeader>
-                                            <CardContent>
-                                                <div className="space-y-4">
-                                                    {client.recentActivity.slice(0, 3).map((activity: any, index: number) => (
-                                                        <div
-                                                            key={index}
-                                                            className="flex items-start gap-3 rounded-lg border p-2"
-                                                        >
-                                                            <div className="mt-0.5">
-                                                                <Clock className="h-4 w-4 text-muted-foreground" />
-                                                            </div>
-                                                            <div className="flex-1 space-y-1">
+                                        <div className="sticky top-[10px] flex flex-col gap-3">
+                                            {show_ai_report && (
+                                                <Card>
+                                                    <CardHeader className="pb-2">
+                                                        <CardTitle className="text-base">AI-Powered Insights</CardTitle>
+                                                    <CardDescription>Personalized insights for {client.name}</CardDescription>
+                                                </CardHeader>
+                                                <CardContent>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos.</CardContent>
+                                            </Card>
+                                            )}
+                                            <PortfolioOverviewClient />
+                                            <Card>
+                                                <CardHeader className="pb-2">
+                                                    <CardTitle className="text-base">Financial Goals</CardTitle>
+                                                    <CardDescription>Progress toward key objectives</CardDescription>
+                                                </CardHeader>
+                                                <CardContent>
+                                                    <div className="space-y-4">
+                                                        {client.goals.map((goal: any, index: number) => (
+                                                            <div
+                                                                key={index}
+                                                                className="space-y-2"
+                                                            >
                                                                 <div className="flex items-center justify-between">
-                                                                    <h4 className="text-sm font-medium">{activity.type}</h4>
+                                                                    <span className="text-sm font-medium">{goal.name}</span>
+                                                                    <span className="text-sm">
+                                                                        {goal.current} of {goal.target}
+                                                                    </span>
+                                                                </div>
+                                                                <Progress
+                                                                    value={goal.progress}
+                                                                    className="h-2"
+                                                                    color="#0a8ec9"
+                                                                />
+                                                                <div className="flex items-center justify-between text-xs text-muted-foreground">
+                                                                    <span>Progress: {goal.progress}%</span>
+                                                                    <span>Target: 100%</span>
+                                                                </div>
+                                                            </div>
+                                                        ))}
+                                                    </div>
+                                                </CardContent>
+                                            </Card>
+                                        </div>
+                                    </div>
+                                    <div className="md:col-span-1">
+                                        <div className="sticky top-[10px] flex flex-col gap-3">
+                                            <Card>
+                                                <CardHeader className="pb-2">
+                                                    <CardTitle className="text-base">AI-Powered Insights</CardTitle>
+                                                    <CardDescription>Personalized insights for {client.name}</CardDescription>
+                                                </CardHeader>
+                                                <CardContent>
+                                                    <div className="space-y-4">
+                                                        <div className="flex gap-3 rounded-lg border p-3 hover:bg-gray-50 cursor-pointer hover:border-gray-200" onClick={() => {
+                                                            setShowAiReport(true)
+                                                        }}>
+                                                            <div className="mt-0.5 flex h-6 w-6 items-center justify-center rounded-full bg-emerald-500/10 p-1.5 text-emerald-500">
+                                                                <TrendingUp className="h-4 w-4" />
+                                                            </div>
+                                                            <div className="space-y-1">
+                                                                <div className="flex items-center gap-2">
+                                                                    <h4 className="text-sm font-medium">Portfolio Opportunity</h4>
                                                                     <Badge
-                                                                        variant="outline"
+                                                                        variant="secondary"
                                                                         className="text-[10px]"
                                                                     >
-                                                                        {activity.date}
+                                                                        opportunity
                                                                     </Badge>
                                                                 </div>
-                                                                <p className="text-xs text-muted-foreground">{activity.details}</p>
-                                                                <p className="text-xs font-medium">{activity.amount}</p>
+                                                                <p className="text-xs text-muted-foreground">{client.riskProfile === 'Aggressive' ? 'Consider increasing allocation to emerging markets for higher growth potential.' : client.riskProfile === 'Conservative' ? 'Municipal bonds currently offer attractive tax-adjusted yields for your profile.' : 'Technology sector appears undervalued based on your investment criteria.'}</p>
                                                             </div>
                                                         </div>
-                                                    ))}
-                                                    <Button
-                                                        variant="outline"
-                                                        size="sm"
-                                                        className="w-full text-xs"
-                                                    >
-                                                        View All Activity
-                                                    </Button>
-                                                </div>
-                                            </CardContent>
-                                        </Card>
+
+                                                        <div className="flex gap-3 rounded-lg border p-3 hover:bg-gray-50 cursor-pointer hover:border-gray-" onClick={() => {
+                                                            setShowAiReport(true)
+                                                        }}>
+                                                            <div className="mt-0.5 flex h-6 w-6 items-center justify-center rounded-full bg-amber-500/10 p-1.5 text-amber-500">
+                                                                <AlertCircle className="h-4 w-4" />
+                                                            </div>
+                                                            <div className="space-y-1">
+                                                                <div className="flex items-center gap-2">
+                                                                    <h4 className="text-sm font-medium">Action Required</h4>
+                                                                    <Badge
+                                                                        variant="secondary"
+                                                                        className="text-[10px]"
+                                                                    >
+                                                                        alert
+                                                                    </Badge>
+                                                                </div>
+                                                                <p className="text-xs text-muted-foreground">{client.goals.some((g: any) => g.name.includes('Retirement')) ? 'Retirement contributions below target. Consider increasing by 10%.' : 'Portfolio rebalancing needed to maintain target risk profile.'}</p>
+                                                            </div>
+                                                        </div>
+
+                                                        <div className="flex gap-3 rounded-lg border p-3 hover:bg-gray-50 cursor-pointer hover:border-gray-" onClick={() => {
+                                                            setShowAiReport(true)
+                                                        }}>
+                                                            <div className="mt-0.5 flex h-6 w-6 items-center justify-center rounded-full bg-blue-500/10 p-1.5 text-blue-500">
+                                                                <CheckCircle2 className="h-4 w-4" />
+                                                            </div>
+                                                            <div className="space-y-1">
+                                                                <div className="flex items-center gap-2">
+                                                                    <h4 className="text-sm font-medium">Tax Optimization</h4>
+                                                                    <Badge
+                                                                        variant="secondary"
+                                                                        className="text-[10px]"
+                                                                    >
+                                                                        strategy
+                                                                    </Badge>
+                                                                </div>
+                                                                <p className="text-xs text-muted-foreground">Tax-loss harvesting opportunity identified in international equity positions.</p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </CardContent>
+                                            </Card>
+                                            <Card>
+                                                <CardHeader className="pb-2">
+                                                    <CardTitle className="text-base">Recent Activity</CardTitle>
+                                                    <CardDescription>Latest transactions</CardDescription>
+                                                </CardHeader>
+                                                <CardContent>
+                                                    <div className="space-y-4">
+                                                        {client.recentActivity.slice(0, 3).map((activity: any, index: number) => (
+                                                            <div
+                                                                key={index}
+                                                                className="flex items-start gap-3 rounded-lg border p-2"
+                                                            >
+                                                                <div className="mt-0.5">
+                                                                    <Clock className="h-4 w-4 text-muted-foreground" />
+                                                                </div>
+                                                                <div className="flex-1 space-y-1">
+                                                                    <div className="flex items-center justify-between">
+                                                                        <h4 className="text-sm font-medium">{activity.type}</h4>
+                                                                        <Badge
+                                                                            variant="outline"
+                                                                            className="text-[10px]"
+                                                                        >
+                                                                            {activity.date}
+                                                                        </Badge>
+                                                                    </div>
+                                                                    <p className="text-xs text-muted-foreground">{activity.details}</p>
+                                                                    <p className="text-xs font-medium">{activity.amount}</p>
+                                                                </div>
+                                                            </div>
+                                                        ))}
+                                                        <Button
+                                                            variant="outline"
+                                                            size="sm"
+                                                            className="w-full text-xs"
+                                                        >
+                                                            View All Activity
+                                                        </Button>
+                                                    </div>
+                                                </CardContent>
+                                            </Card>
+                                        </div>
                                     </div>
                                 </div>
                             </TabsContent>
@@ -1443,7 +1460,10 @@ export function ClientDetailPage({ clientId }: ClientDetailPageProps) {
                                                         width="100%"
                                                         height="100%"
                                                     >
-                                                        <PortfolioOverviewClient onlyChart={true} />
+                                                        <PortfolioOverviewClient
+                                                            onlyChart={true}
+                                                            presettedTimeframe={'1Y'}
+                                                        />
                                                     </ResponsiveContainer>
                                                 </div>
                                             </div>

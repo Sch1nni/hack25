@@ -6,6 +6,8 @@ import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { ArrowUpRight, TrendingUp } from 'lucide-react'
 import { ResponsiveContainer, LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, Area } from 'recharts'
 
+let range_dates: string[] = []
+
 const predictionData = [
     { date: 'Jan', value: 2400000 },
     { date: 'Feb', value: 2300000 },
@@ -80,20 +82,20 @@ const generateFutureDates = (startDate: string, count: number) => {
 // Generate past predictions (starting from 2025-01-01)
 const pastData = portfolioData.map((item, index) => {
     // Find the index of January 1, 2025 in the portfolio data
-    const jan2025Index = portfolioData.findIndex(item => {
-        const itemDate = new Date(item.date);
-        const startDate = new Date('2025-01-01');
-        return itemDate >= startDate;
-    });
-    
+    const jan2025Index = portfolioData.findIndex((item) => {
+        const itemDate = new Date(item.date)
+        const startDate = new Date('2025-01-01')
+        return itemDate >= startDate
+    })
+
     // Calculate prediction index based on position relative to Jan 1, 2025
-    let predictionIndex = -1;
+    let predictionIndex = -1
     if (jan2025Index !== -1 && index >= jan2025Index) {
-        const relativeIndex = index - jan2025Index;
-        const step = (portfolioData.length - jan2025Index) / portfolio_prediction.length;
-        predictionIndex = Math.floor(relativeIndex / step);
+        const relativeIndex = index - jan2025Index
+        const step = (portfolioData.length - jan2025Index) / portfolio_prediction.length
+        predictionIndex = Math.floor(relativeIndex / step)
         if (predictionIndex >= portfolio_prediction.length) {
-            predictionIndex = -1;
+            predictionIndex = -1
         }
     }
 
@@ -103,7 +105,7 @@ const pastData = portfolioData.map((item, index) => {
         pastPrediction: predictionIndex !== -1 ? portfolio_prediction[predictionIndex].Predictions : null,
         futurePrediction: null,
     }
-});
+})
 
 // Create future prediction data using timestamps from the data
 const futureData = portfolio_future_prediction.map((prediction) => ({
@@ -116,8 +118,67 @@ const futureData = portfolio_future_prediction.map((prediction) => ({
 // Combine data for the chart
 const combinedData = [...pastData, ...futureData]
 
-export function PortfolioOverviewClient({ onlyChart }: { onlyChart?: boolean }) {
-    const [timeframe, setTimeframe] = useState('1Y')
+/**
+ * * Filters data based on the provided date range
+ * ? Takes the combined data and optional range dates
+ * ! Returns filtered data if range is provided, otherwise returns all data
+ */
+const filterDataByDateRange = (data: any[], range_dates?: string[]) => {
+    if (!range_dates || range_dates.length !== 2) return data
+
+    const [startDate, endDate] = range_dates
+    return data.filter((item) => {
+        const itemDate = item.date
+        return itemDate >= startDate && itemDate <= endDate
+    })
+}
+
+/**
+ * * Calculates the date range based on the selected timeframe
+ * ? Takes a timeframe string and returns start and end dates
+ * ! Uses current date as reference for calculations
+ */
+const getDateRangeFromTimeframe = (timeframe: string): string[] => {
+    const today = new Date()
+
+    const endDate = today.toISOString().split('T')[0]
+    let startDate = new Date()
+
+    switch (timeframe) {
+        case '1M':
+            startDate.setMonth(today.getMonth() - 1)
+            break
+        case '3M':
+            startDate.setMonth(today.getMonth() - 3)
+            break
+        case '6M':
+            startDate.setMonth(today.getMonth() - 6)
+            break
+        case '1Y':
+            startDate.setFullYear(today.getFullYear() - 1)
+            break
+        case 'ALL':
+            return [] // Empty array will show all data
+        default:
+            startDate.setFullYear(today.getFullYear() - 1) // Default to 1Y
+    }
+
+    const endDatePlus6M = new Date(endDate)
+    if (!['1M'].includes(timeframe)) {
+        endDatePlus6M.setMonth(endDatePlus6M.getMonth() + 6)
+    }
+    // startDate.setMonth(startDate.getMonth() - 6);
+    return [startDate.toISOString().split('T')[0], endDatePlus6M.toISOString().split('T')[0]]
+}
+
+export function PortfolioOverviewClient({ onlyChart, presettedTimeframe }: { onlyChart?: boolean; presettedTimeframe?: string }) {
+    const [timeframe, setTimeframe] = useState(presettedTimeframe || '1M')
+
+    // Update range_dates based on timeframe
+    range_dates = getDateRangeFromTimeframe(timeframe)
+
+    // Filter data based on range_dates
+    const filteredData = filterDataByDateRange(combinedData, range_dates)
 
     let content = (
         <div className="h-[300px] w-full">
@@ -125,7 +186,7 @@ export function PortfolioOverviewClient({ onlyChart }: { onlyChart?: boolean }) 
                 width="100%"
                 height="100%"
             >
-                <LineChart data={combinedData}>
+                <LineChart data={filteredData}>
                     <CartesianGrid
                         strokeDasharray="3 3"
                         opacity={0.2}
@@ -171,7 +232,7 @@ export function PortfolioOverviewClient({ onlyChart }: { onlyChart?: boolean }) 
                         dot={false}
                         // strokeDasharray="5 5"
                     />
-                    {/* <defs>
+                    <defs>
                         <linearGradient
                             id="colorGradient"
                             x1="0"
@@ -196,7 +257,7 @@ export function PortfolioOverviewClient({ onlyChart }: { onlyChart?: boolean }) 
                         dataKey="portfolio"
                         fill="url(#colorGradient)"
                         fillOpacity={0.2}
-                    /> */}
+                    />
                 </LineChart>
             </ResponsiveContainer>
         </div>
@@ -210,15 +271,40 @@ export function PortfolioOverviewClient({ onlyChart }: { onlyChart?: boolean }) 
                     <CardDescription>Total portfolio value and performance over time</CardDescription>
                 </div>
                 <Tabs
-                    defaultValue="1Y"
+                    defaultValue="1M"
                     onValueChange={setTimeframe}
                 >
                     <TabsList>
-                        <TabsTrigger value="1M">1M</TabsTrigger>
-                        <TabsTrigger value="3M">3M</TabsTrigger>
-                        <TabsTrigger value="6M">6M</TabsTrigger>
-                        <TabsTrigger value="1Y">1Y</TabsTrigger>
-                        <TabsTrigger value="ALL">ALL</TabsTrigger>
+                        <TabsTrigger
+                            onClick={() => setTimeframe('1M')}
+                            value="1M"
+                        >
+                            1M
+                        </TabsTrigger>
+                        <TabsTrigger
+                            onClick={() => setTimeframe('3M')}
+                            value="3M"
+                        >
+                            3M
+                        </TabsTrigger>
+                        <TabsTrigger
+                            onClick={() => setTimeframe('6M')}
+                            value="6M"
+                        >
+                            6M
+                        </TabsTrigger>
+                        <TabsTrigger
+                            onClick={() => setTimeframe('1Y')}
+                            value="1Y"
+                        >
+                            1Y
+                        </TabsTrigger>
+                        <TabsTrigger
+                            onClick={() => setTimeframe('ALL')}
+                            value="ALL"
+                        >
+                            ALL
+                        </TabsTrigger>
                     </TabsList>
                 </Tabs>
             </CardHeader>

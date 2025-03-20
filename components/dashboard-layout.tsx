@@ -43,7 +43,7 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
         // { path: '/investments', icon: Briefcase, label: 'Investments', active: pathname === '/investments' },
         { path: '/analytics', icon: PieChart, label: 'Analytics', active: pathname === '/analytics' },
         { path: '/calendar', icon: Calendar, label: 'Calendar', active: pathname === '/calendar' },
-        { path: "/news", icon: FileText, label: "News", active: pathname === "/news" },
+        { path: '/news', icon: FileText, label: 'News', active: pathname === '/news' },
     ]
 
     const notifications = [
@@ -227,7 +227,7 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
 
                 <main className="flex-1 overflow-auto">
                     {children}
-                    
+
                     {/* Floating Microphone Button */}
                     <Button
                         className="fixed bottom-6 right-6 h-12 w-12 rounded-full shadow-lg"
@@ -237,13 +237,14 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
                     </Button>
 
                     {/* Voice Assistant Modal */}
-                    <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
+                    <Dialog
+                        open={isModalOpen}
+                        onOpenChange={setIsModalOpen}
+                    >
                         <DialogContent>
                             <DialogHeader>
                                 <DialogTitle>Voice Assistant</DialogTitle>
-                                <DialogDescription>
-                                    What can I help you with today?
-                                </DialogDescription>
+                                <DialogDescription>What can I help you with today?</DialogDescription>
                             </DialogHeader>
                             <div className="flex flex-col items-center justify-center space-y-4 p-6">
                                 <Button
