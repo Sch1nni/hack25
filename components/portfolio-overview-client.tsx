@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { ArrowUpRight, TrendingUp } from 'lucide-react'
@@ -169,6 +169,11 @@ const getDateRangeFromTimeframe = (timeframe: string): string[] => {
     }
     // startDate.setMonth(startDate.getMonth() - 6);
     return [startDate.toISOString().split('T')[0], endDatePlus6M.toISOString().split('T')[0]]
+}
+
+interface VoiceResponse {
+    text: string
+    timestamp: string
 }
 
 export function PortfolioOverviewClient({ onlyChart, presettedTimeframe }: { onlyChart?: boolean; presettedTimeframe?: string }) {

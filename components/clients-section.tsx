@@ -12,7 +12,7 @@ const clients = [
     {
         id: '1',
         name: 'William Anderson',
-        email: 'emma.thompson@example.com',
+        email: 'william.anderson@example.com',
         portfolioValue: '$2.4M',
         change: '+5.2%',
         positive: true,

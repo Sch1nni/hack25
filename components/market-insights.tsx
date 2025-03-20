@@ -54,13 +54,13 @@ export function MarketInsights() {
                                     <XAxis dataKey="name" />
                                     <YAxis tickFormatter={(value) => `${value}%`} />
                                     <Tooltip
-                                        formatter={(value: number) => [`${value}%`, '']}
+                                        formatter={(value: number) => [`${value}%`]}
                                         labelFormatter={(label) => `${label}`}
                                     />
                                     <Bar
                                         dataKey="value"
                                         radius={[4, 4, 0, 0]}
-                                        fill={(entry) => entry.color}
+                                        fill={(entry: any) => entry.color}
                                     />
                                 </BarChart>
                             </ResponsiveContainer>
@@ -102,13 +102,13 @@ export function MarketInsights() {
                                     <XAxis dataKey="name" />
                                     <YAxis tickFormatter={(value) => `${value}%`} />
                                     <Tooltip
-                                        formatter={(value: number) => [`${value}%`, '']}
+                                        formatter={(value: number) => [`${value}%`]}
                                         labelFormatter={(label) => `${label}`}
                                     />
                                     <Bar
                                         dataKey="value"
                                         radius={[4, 4, 0, 0]}
-                                        fill={(entry) => entry.color}
+                                        fill={(entry: any) => entry.color}
                                     />
                                 </BarChart>
                             </ResponsiveContainer>

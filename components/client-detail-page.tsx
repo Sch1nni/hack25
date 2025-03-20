@@ -28,7 +28,7 @@ const clientsData = [
     {
         id: '1',
         name: 'William Anderson',
-        email: 'emma.thompson@example.com',
+        email: 'william.anderson@example.com',
         phone: '+1 (555) 123-4567',
         address: '123 Main St, New York, NY 10001',
         occupation: 'CEO, Thompson Enterprises',
@@ -804,10 +804,10 @@ export function ClientDetailPage({ clientId }: ClientDetailPageProps) {
                                                 <Card>
                                                     <CardHeader className="pb-2">
                                                         <CardTitle className="text-base">AI-Powered Insights</CardTitle>
-                                                    <CardDescription>Personalized insights for {client.name}</CardDescription>
-                                                </CardHeader>
-                                                <CardContent>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos.</CardContent>
-                                            </Card>
+                                                        <CardDescription>Personalized insights for {client.name}</CardDescription>
+                                                    </CardHeader>
+                                                    <CardContent>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos.</CardContent>
+                                                </Card>
                                             )}
                                             <PortfolioOverviewClient />
                                             <Card>
@@ -853,9 +853,12 @@ export function ClientDetailPage({ clientId }: ClientDetailPageProps) {
                                                 </CardHeader>
                                                 <CardContent>
                                                     <div className="space-y-4">
-                                                        <div className="flex gap-3 rounded-lg border p-3 hover:bg-gray-50 cursor-pointer hover:border-gray-200" onClick={() => {
-                                                            setShowAiReport(true)
-                                                        }}>
+                                                        <div
+                                                            className="flex cursor-pointer gap-3 rounded-lg border p-3 hover:border-gray-200 hover:bg-gray-50"
+                                                            onClick={() => {
+                                                                setShowAiReport(true)
+                                                            }}
+                                                        >
                                                             <div className="mt-0.5 flex h-6 w-6 items-center justify-center rounded-full bg-emerald-500/10 p-1.5 text-emerald-500">
                                                                 <TrendingUp className="h-4 w-4" />
                                                             </div>
@@ -873,9 +876,12 @@ export function ClientDetailPage({ clientId }: ClientDetailPageProps) {
                                                             </div>
                                                         </div>
 
-                                                        <div className="flex gap-3 rounded-lg border p-3 hover:bg-gray-50 cursor-pointer hover:border-gray-" onClick={() => {
-                                                            setShowAiReport(true)
-                                                        }}>
+                                                        <div
+                                                            className="hover:border-gray- flex cursor-pointer gap-3 rounded-lg border p-3 hover:bg-gray-50"
+                                                            onClick={() => {
+                                                                setShowAiReport(true)
+                                                            }}
+                                                        >
                                                             <div className="mt-0.5 flex h-6 w-6 items-center justify-center rounded-full bg-amber-500/10 p-1.5 text-amber-500">
                                                                 <AlertCircle className="h-4 w-4" />
                                                             </div>
@@ -893,9 +899,12 @@ export function ClientDetailPage({ clientId }: ClientDetailPageProps) {
                                                             </div>
                                                         </div>
 
-                                                        <div className="flex gap-3 rounded-lg border p-3 hover:bg-gray-50 cursor-pointer hover:border-gray-" onClick={() => {
-                                                            setShowAiReport(true)
-                                                        }}>
+                                                        <div
+                                                            className="hover:border-gray- flex cursor-pointer gap-3 rounded-lg border p-3 hover:bg-gray-50"
+                                                            onClick={() => {
+                                                                setShowAiReport(true)
+                                                            }}
+                                                        >
                                                             <div className="mt-0.5 flex h-6 w-6 items-center justify-center rounded-full bg-blue-500/10 p-1.5 text-blue-500">
                                                                 <CheckCircle2 className="h-4 w-4" />
                                                             </div>
@@ -993,7 +1002,7 @@ export function ClientDetailPage({ clientId }: ClientDetailPageProps) {
                                                             <XAxis dataKey="name" />
                                                             <YAxis tickFormatter={(value) => `${value}%`} />
                                                             <Tooltip
-                                                                formatter={(value: number) => [`${value}%`, '']}
+                                                                formatter={(value: number) => [`${value}%`]}
                                                                 labelFormatter={(label) => `${label}`}
                                                             />
                                                             <Bar
@@ -1047,7 +1056,7 @@ export function ClientDetailPage({ clientId }: ClientDetailPageProps) {
                                                             <XAxis dataKey="name" />
                                                             <YAxis tickFormatter={(value) => `${value}%`} />
                                                             <Tooltip
-                                                                formatter={(value: number) => [`${value}%`, '']}
+                                                                formatter={(value: number) => [`${value}%`]}
                                                                 labelFormatter={(label) => `${label}`}
                                                             />
                                                             <Bar
@@ -1202,7 +1211,12 @@ export function ClientDetailPage({ clientId }: ClientDetailPageProps) {
                                                         </div>
 
                                                         <div className="flex cursor-pointer items-center justify-center rounded-lg border bg-foreground p-2 text-white transition-colors hover:bg-foreground/90">
-                                                            <h4 className="text-center text-sm font-medium">News correlation</h4>
+                                                            <a
+                                                                href="/news"
+                                                                className="text-center text-sm font-medium"
+                                                            >
+                                                                News correlation
+                                                            </a>
                                                         </div>
                                                     </div>
                                                 ) : (
@@ -1420,7 +1434,7 @@ export function ClientDetailPage({ clientId }: ClientDetailPageProps) {
                                                                         />
                                                                     ))}
                                                                 </Pie>
-                                                                <Tooltip formatter={(value) => [`${value}%`, '']} />
+                                                                <Tooltip formatter={(value) => [`${value}%`]} />
                                                             </RechartsPieChart>
                                                         </ResponsiveContainer>
                                                     </div>

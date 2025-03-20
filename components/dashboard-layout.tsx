@@ -1,7 +1,7 @@
 'use client'
 
 import type React from 'react'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { ModeToggle } from '@/components/mode-toggle'
@@ -12,6 +12,8 @@ import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu'
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog'
+import { WaveForm } from './wave-form'
+import { Spinner } from '@/components/ui/spinner'
 
 interface DashboardLayoutProps {
     children: React.ReactNode
@@ -22,11 +24,76 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
     const [isModalOpen, setIsModalOpen] = useState(false)
     const pathname = usePathname()
     const [notificationCount, setNotificationCount] = useState(3)
+    const [isRecording, setIsRecording] = useState(false)
+    const [audioStream, setAudioStream] = useState<MediaStream | null>(null)
+    const [hasPermission, setHasPermission] = useState<boolean | null>(null)
+    const [isProcessing, setIsProcessing] = useState(false)
 
     // Prevent hydration mismatch
     useEffect(() => {
         setMounted(true)
     }, [])
+
+    const startRecording = useCallback(async () => {
+        try {
+            const stream = await navigator.mediaDevices.getUserMedia({ audio: true })
+            setAudioStream(stream)
+            setHasPermission(true)
+            setIsRecording(true)
+        } catch (err) {
+            console.error('Error accessing microphone:', err)
+            setHasPermission(false)
+        }
+    }, [])
+
+    const stopRecording = useCallback(() => {
+        if (audioStream) {
+            // Call handleRecordingFinished before stopping the tracks
+            if (audioStream.getAudioTracks()[0]) {
+                console.log('Stopping recording and processing audio...')
+                handleRecordingFinished(new Float32Array()) // This will be replaced by actual audio data from WaveForm
+            }
+
+            // Stop all tracks
+            audioStream.getTracks().forEach((track) => track.stop())
+            setAudioStream(null)
+            setIsRecording(false)
+            setIsProcessing(true)
+
+            // Simulate API processing
+            setTimeout(() => {
+                const fakeResponse = {
+                    text: 'This is a simulated voice transcription',
+                    timestamp: new Date().toISOString(),
+                }
+
+                const customEvent = new CustomEvent('voiceRequestCompleted', {
+                    detail: fakeResponse,
+                })
+                document.dispatchEvent(customEvent)
+
+                setIsProcessing(false)
+                setIsModalOpen(false)
+            }, 2000)
+        }
+    }, [audioStream])
+
+    const handleRecordingFinished = useCallback((audioData: Float32Array) => {
+        console.log('Dashboard received recording data:', {
+            dataLength: audioData.length,
+            sampleData: audioData.slice(0, 10), // Show first 10 samples
+        })
+        // Process the audio data here...
+    }, [])
+
+    // Clean up audio stream when component unmounts
+    useEffect(() => {
+        return () => {
+            if (audioStream) {
+                audioStream.getTracks().forEach((track) => track.stop())
+            }
+        }
+    }, [audioStream])
 
     if (!mounted) {
         return null
@@ -244,16 +311,30 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
                         <DialogContent>
                             <DialogHeader>
                                 <DialogTitle>Voice Assistant</DialogTitle>
-                                <DialogDescription>What can I help you with today?</DialogDescription>
+                                <DialogDescription>How can I help you today?</DialogDescription>
                             </DialogHeader>
                             <div className="flex flex-col items-center justify-center space-y-4 p-6">
+                                {isRecording && (
+                                    <div className="mb-4 w-full">
+                                        <WaveForm
+                                            audioStream={audioStream}
+                                            onRecordingFinished={handleRecordingFinished}
+                                        />
+                                    </div>
+                                )}
+
                                 <Button
-                                    className="h-16 w-16 rounded-full"
+                                    className={`h-16 w-16 rounded-full ${isRecording ? 'bg-red-500 hover:bg-red-600' : ''}`}
                                     variant="outline"
+                                    onClick={isRecording ? stopRecording : startRecording}
+                                    disabled={isProcessing}
                                 >
-                                    <Mic className="h-8 w-8" />
+                                    {isProcessing ? <Spinner /> : isRecording ? <div className="h-6 w-6 bg-white" /> : <Mic className="h-8 w-8" />}
                                 </Button>
-                                <p className="text-sm text-muted-foreground">Click to start speaking</p>
+
+                                {hasPermission === false && <p className="text-sm text-red-500">Microphone access denied. Please enable microphone access in your browser settings.</p>}
+
+                                {isProcessing ? <p className="text-sm text-muted-foreground">Processing your request...</p> : !isRecording && <p className="text-sm text-muted-foreground">Click to start speaking</p>}
                             </div>
                         </DialogContent>
                     </Dialog>

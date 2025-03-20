@@ -119,9 +119,9 @@ export function ClientProfiling() {
                                 </CardHeader>
                                 <CardContent>
                                     <div className="flex flex-col items-center">
-                                        <div className="mb-2 text-3xl font-bold">68/100</div>
+                                        <div className="mb-2 text-3xl font-bold">69/100</div>
                                         <Progress
-                                            value={68}
+                                            value={69}
                                             className="h-2 w-full"
                                         />
                                         <p className="mt-2 text-xs text-muted-foreground">Above average for demographic</p>
