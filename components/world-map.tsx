@@ -1,16 +1,16 @@
 'use client'
 
-import { useRef } from 'react'
+import { useRef, useEffect } from 'react'
 import { ComposableMap, Geographies, Geography, ZoomableGroup } from 'react-simple-maps'
 import { scaleLinear } from 'd3-scale'
 
 // World map GeoJSON data
-const geoUrl = 'https://raw.githubusercontent.com/deldersveld/topojson/master/world-countries.json'
+const geoUrl = 'https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json'
 
 // Country code mapping for common countries
 const countryMapping: Record<string, string[]> = {
     'United States': ['USA'],
-    'Europe': ['FRA', 'DEU', 'GBR', 'ITA', 'ESP', 'NLD', 'CHE', 'SWE', 'BEL', 'AUT', 'PRT', 'GRC', 'IRL', 'DNK', 'FIN', 'NOR', 'POL', 'CZE', 'HUN', 'ROU'],
+    'Europe': ['FRA', 'DEU', 'GBR', 'ITA', 'ESP', 'NLD', 'CHE', 'SWE', 'BEL', 'AUT', 'PRT', 'GRC', 'IRL', 'DNK', 'FIN', 'NOR', 'POL', 'CZE', 'HUN', 'ROU', 'LUX', 'SVK', 'HRV', 'BGR', 'SVN', 'LTU', 'LVA', 'EST', 'CYP', 'MLT'],
     'China': ['CHN'],
     'Japan': ['JPN'],
     'India': ['IND'],
@@ -19,11 +19,14 @@ const countryMapping: Record<string, string[]> = {
     'Australia': ['AUS'],
     'Russia': ['RUS'],
     'South Korea': ['KOR'],
+    'United Kingdom': ['GBR'],
+    'Switzerland': ['CHE']
 }
 
 interface WorldMapProps {
     data: {
         country: string
+        iso_a3: string
         value: number
         color: string
     }[]
@@ -41,12 +44,21 @@ export function WorldMap({ data, onCountrySelect, selectedCountry }: WorldMapPro
 
     // Get color for a specific country
     const getCountryColor = (geo: any) => {
-        const countryCode = geo.properties.id || geo.id
+        const countryCode = geo.properties?.iso_a3
 
-        // Check if this country is in our data
-        for (const item of data) {
-            if (countryMapping[item.country]?.includes(countryCode)) {
-                return item.color
+        // First check direct match with iso_a3
+        const directMatch = data.find(item => item.iso_a3 === countryCode)
+        if (directMatch) {
+            return directMatch.color
+        }
+
+        // Then check if country is part of a region (like Europe)
+        for (const [regionName, codes] of Object.entries(countryMapping)) {
+            if (codes.includes(countryCode)) {
+                const regionData = data.find(item => item.country === regionName)
+                if (regionData) {
+                    return regionData.color
+                }
             }
         }
 
@@ -58,14 +70,14 @@ export function WorldMap({ data, onCountrySelect, selectedCountry }: WorldMapPro
     const isCountrySelected = (geo: any) => {
         if (!selectedCountry) return false
 
-        const countryCode = geo.properties.id || geo.id
+        const countryCode = geo.properties?.iso_a3 || geo.id
 
         // Find the country in our mapping that contains this code
         for (const [country, codes] of Object.entries(countryMapping)) {
             if (codes.includes(countryCode)) {
-                const countryDetail = data.find((d) => d.country === country)
+                const countryDetail = data.find((d) => d.iso_a3 === countryCode)
                 if (countryDetail) {
-                    return selectedCountry === countryCode
+                    return selectedCountry === countryDetail.iso_a3
                 }
             }
         }
@@ -75,32 +87,46 @@ export function WorldMap({ data, onCountrySelect, selectedCountry }: WorldMapPro
 
     // Handle country click
     const handleCountryClick = (geo: any) => {
-        const countryCode = geo.properties.id || geo.id
+        const countryCode = geo.properties?.iso_a3 || geo.id
 
         // Find the country in our mapping that contains this code
         for (const [country, codes] of Object.entries(countryMapping)) {
             if (codes.includes(countryCode)) {
-                const countryDetail = data.find((d) => d.country === country)
+                const countryDetail = data.find((d) => d.iso_a3 === countryCode)
                 if (countryDetail && onCountrySelect) {
-                    onCountrySelect(countryCode)
+                    onCountrySelect(countryDetail.iso_a3)
                     return
                 }
             }
         }
     }
 
+    useEffect(() => {
+        console.log('Map data:', data)
+    }, [data])
+
     return (
         <div
             ref={mapRef}
-            className="h-full w-full"
+            className="h-[350px] w-full overflow-hidden rounded-lg border"
+            style={{ minHeight: '350px' }}
         >
             <ComposableMap
                 projection="geoMercator"
-                projectionConfig={{ scale: 120 }}
+                projectionConfig={{
+                    scale: 150,
+                    center: [0, 30]
+                }}
+                style={{
+                    width: "100%",
+                    height: "100%"
+                }}
             >
                 <ZoomableGroup
-                    center={[0, 20]}
                     zoom={1}
+                    maxZoom={5}
+                    minZoom={1}
+                    center={[0, 0]}
                 >
                     <Geographies geography={geoUrl}>
                         {({ geographies }) =>

@@ -59,14 +59,14 @@ const clientsData = [
             { name: 'Utilities', value: 5, color: '#94a3b8' },
         ],
         geographicAllocation: [
-            { country: 'United States', value: 60, color: '#0ea5e9' },
-            { country: 'Europe', value: 15, color: '#8b5cf6' },
-            { country: 'China', value: 10, color: '#f97316' },
-            { country: 'Japan', value: 5, color: '#10b981' },
-            { country: 'India', value: 4, color: '#eab308' },
-            { country: 'Brazil', value: 3, color: '#ec4899' },
-            { country: 'Canada', value: 2, color: '#6366f1' },
-            { country: 'Other', value: 1, color: '#94a3b8' },
+            { country: 'United States', iso_a3: 'USA', value: 60, color: '#0ea5e9' },
+            { country: 'Germany', iso_a3: 'DEU', value: 15, color: '#8b5cf6' },
+            { country: 'China', iso_a3: 'CHN', value: 10, color: '#f97316' },
+            { country: 'Japan', iso_a3: 'JPN', value: 5, color: '#10b981' },
+            { country: 'India', iso_a3: 'IND', value: 4, color: '#eab308' },
+            { country: 'Brazil', iso_a3: 'BRA', value: 3, color: '#ec4899' },
+            { country: 'Canada', iso_a3: 'CAN', value: 2, color: '#6366f1' },
+            { country: 'Australia', iso_a3: 'AUS', value: 1, color: '#94a3b8' },
         ],
         countryDetails: [
             {
@@ -81,12 +81,12 @@ const clientsData = [
                 ],
             },
             {
-                id: 'EUR',
-                name: 'Europe',
+                id: 'DEU',
+                name: 'Germany',
                 value: 15,
                 holdings: [
-                    { name: 'European Index Fund', allocation: '8%', amount: '$192,000' },
-                    { name: 'European Dividend Stocks', allocation: '7%', amount: '$168,000' },
+                    { name: 'DAX Index Fund', allocation: '8%', amount: '$192,000' },
+                    { name: 'German Blue Chips', allocation: '7%', amount: '$168,000' },
                 ],
             },
             {
@@ -118,10 +118,10 @@ const clientsData = [
                 holdings: [{ name: 'Canada Index Fund', allocation: '2%', amount: '$48,000' }],
             },
             {
-                id: 'OTH',
-                name: 'Other',
+                id: 'AUS',
+                name: 'Australia',
                 value: 1,
-                holdings: [{ name: 'Emerging Markets ETF', allocation: '1%', amount: '$24,000' }],
+                holdings: [{ name: 'Australian Index Fund', allocation: '1%', amount: '$24,000' }],
             },
         ],
         performanceData: [
@@ -199,12 +199,12 @@ const clientsData = [
             { name: 'Utilities', value: 5, color: '#94a3b8' },
         ],
         geographicAllocation: [
-            { country: 'United States', value: 65, color: '#0ea5e9' },
-            { country: 'China', value: 15, color: '#f97316' },
-            { country: 'Europe', value: 10, color: '#8b5cf6' },
-            { country: 'India', value: 5, color: '#eab308' },
-            { country: 'Japan', value: 3, color: '#10b981' },
-            { country: 'Other', value: 2, color: '#94a3b8' },
+            { country: 'United States', iso_a3: 'USA', value: 65, color: '#0ea5e9' },
+            { country: 'China', iso_a3: 'CHN', value: 15, color: '#f97316' },
+            { country: 'Europe', iso_a3: 'EUR', value: 10, color: '#8b5cf6' },
+            { country: 'India', iso_a3: 'IND', value: 5, color: '#eab308' },
+            { country: 'Japan', iso_a3: 'JPN', value: 3, color: '#10b981' },
+            { country: 'Other', iso_a3: 'OTH', value: 2, color: '#94a3b8' },
         ],
         countryDetails: [
             {
@@ -326,12 +326,12 @@ const clientsData = [
             { name: 'Utilities', value: 10, color: '#94a3b8' },
         ],
         geographicAllocation: [
-            { country: 'United States', value: 70, color: '#0ea5e9' },
-            { country: 'Europe', value: 12, color: '#8b5cf6' },
-            { country: 'Canada', value: 8, color: '#f97316' },
-            { country: 'Japan', value: 5, color: '#10b981' },
-            { country: 'Australia', value: 3, color: '#eab308' },
-            { country: 'Other', value: 2, color: '#94a3b8' },
+            { country: 'United States', iso_a3: 'USA', value: 70, color: '#0ea5e9' },
+            { country: 'Europe', iso_a3: 'EUR', value: 12, color: '#8b5cf6' },
+            { country: 'Canada', iso_a3: 'CAN', value: 8, color: '#f97316' },
+            { country: 'Japan', iso_a3: 'JPN', value: 5, color: '#10b981' },
+            { country: 'Australia', iso_a3: 'AUS', value: 3, color: '#eab308' },
+            { country: 'Other', iso_a3: 'OTH', value: 2, color: '#94a3b8' },
         ],
         countryDetails: [
             {
@@ -461,11 +461,11 @@ const clientsData = [
             { name: 'Utilities', value: 10, color: '#94a3b8' },
         ],
         geographicAllocation: [
-            { country: 'United States', value: 80, color: '#0ea5e9' },
-            { country: 'Canada', value: 10, color: '#f97316' },
-            { country: 'United Kingdom', value: 5, color: '#8b5cf6' },
-            { country: 'Switzerland', value: 3, color: '#10b981' },
-            { country: 'Other', value: 2, color: '#94a3b8' },
+            { country: 'United States', iso_a3: 'USA', value: 80, color: '#0ea5e9' },
+            { country: 'Canada', iso_a3: 'CAN', value: 10, color: '#f97316' },
+            { country: 'United Kingdom', iso_a3: 'GBR', value: 5, color: '#8b5cf6' },
+            { country: 'Switzerland', iso_a3: 'CHE', value: 3, color: '#10b981' },
+            { country: 'Other', iso_a3: 'OTH', value: 2, color: '#94a3b8' },
         ],
         countryDetails: [
             {
@@ -584,10 +584,10 @@ const clientsData = [
             { name: 'Materials', value: 2, color: '#94a3b8' },
         ],
         geographicAllocation: [
-            { country: 'United States', value: 85, color: '#0ea5e9' },
-            { country: 'China', value: 5, color: '#f97316' },
-            { country: 'Emerging Markets', value: 5, color: '#8b5cf6' },
-            { country: 'Other', value: 5, color: '#94a3b8' },
+            { country: 'United States', iso_a3: 'USA', value: 85, color: '#0ea5e9' },
+            { country: 'China', iso_a3: 'CHN', value: 5, color: '#f97316' },
+            { country: 'Emerging Markets', iso_a3: 'EMR', value: 5, color: '#8b5cf6' },
+            { country: 'Other', iso_a3: 'OTH', value: 5, color: '#94a3b8' },
         ],
         countryDetails: [
             {
@@ -980,11 +980,12 @@ export function ClientDetailPage({ clientId }: ClientDetailPageProps) {
                                                                 labelFormatter={(label) => `${label}`}
                                                             />
                                                             <Bar
+                                                                key={Math.random() * Math.random()}
                                                                 dataKey="value"
                                                                 radius={[4, 4, 0, 0]}
                                                             >
                                                                 {client.assetAllocation.map((item: any) => (
-                                                                    <Cell fill={item.color} />
+                                                                    <Cell key={Math.random() * Math.random()} fill={item.color} />
                                                                 ))}
                                                             </Bar>
                                                         </RechartsBarChart>

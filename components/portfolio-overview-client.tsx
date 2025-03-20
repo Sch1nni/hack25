@@ -22,7 +22,7 @@ const benchmarkData = [
 ]
 
 import portfolioJson from '@/assets/portfolio-client.json'
-console.log('portfolioJson', portfolioJson)
+// console.log('portfolioJson', portfolioJson)
 
 /**
  * * Processes portfolio data to get combined values by date
