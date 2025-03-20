@@ -804,10 +804,38 @@ export function ClientDetailPage({ clientId }: ClientDetailPageProps) {
                                                 <Card>
                                                     <CardHeader className="pb-2">
                                                         <CardTitle className="text-base">AI-Powered Insights</CardTitle>
-                                                        <CardDescription>Personalized insights for {client.name}</CardDescription>
-                                                    </CardHeader>
-                                                    <CardContent>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos.</CardContent>
-                                                </Card>
+                                                    <CardDescription>Market Performance Report: March 19-20, 2024 for {client.name}</CardDescription>
+                                                </CardHeader>
+                                                <CardContent>
+                                                    <div className="market-report">
+
+                                                        <hr className="border-t border-gray-200 py-2" />
+
+                                                        <section className="overview">
+                                                            <h2 className="text-base text-info font-bold">Overview</h2>
+                                                            <p className="text-sm text-muted-foreground">The market showed strong positive momentum across major tech and financial stocks over the past 24 hours, with all analyzed stocks posting gains between 1.08% and 1.99%.</p>
+                                                        </section>
+
+
+
+                                                        <section className="top-performers">
+                                                            {/* <h2 className="text-base text-info font-bold">Top Performers</h2> */}
+<br />
+                                                            <article className="stock">
+                                                                <h3 className="text-sm font-bold">Goldman Sachs Group (GS) +1.99%</h3>
+                                                                <p className="text-xs text-muted-foreground">Goldman Sachs led the pack with a nearly 2% gain after the Federal Reserve's latest policy meeting signaled potential rate cuts later this year. The company's investment banking division is reportedly seeing increased M&A activity in anticipation of a more favorable interest rate environment. Goldman's recent announcement of expanding its wealth management services for ultra-high-net-worth individuals has also contributed to investor confidence as the firm diversifies beyond traditional investment banking.</p>
+                                                            </article>
+
+                                                            <br />
+
+                                                            <article className="stock">
+                                                                <h3 className="text-sm font-bold">Meta Platforms (META) +1.85%</h3>
+                                                                <p className="text-xs text-muted-foreground">Meta shares surged following reports of strong engagement metrics for its new AI-powered personalization features on Instagram and Facebook. The company's recent partnership with leading AI chip providers (announced yesterday) to develop custom hardware for its metaverse initiatives has been well-received by analysts, with several upgrading their price targets. Meta's consistent progress in monetizing its messaging platforms has also provided additional momentum.</p>
+                                                            </article>
+                                                        </section>
+                                                    </div>
+                                                </CardContent>
+                                            </Card>
                                             )}
                                             <PortfolioOverviewClient />
                                             <Card>

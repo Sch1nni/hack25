@@ -9,6 +9,11 @@ import { DashboardHeader } from '@/components/dashboard-header'
 import { ClientsSection } from '@/components/clients-section'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { useRouter } from 'next/navigation'
+import { NewsContent } from './news-content'
+
+let activeFilters: string[] = []
+let activeCategory = ''
+let loading = false
 
 export function DashboardPage() {
     const [searchQuery, setSearchQuery] = useState('')
@@ -38,7 +43,13 @@ export function DashboardPage() {
                         <div className="relative grid grid-cols-1 gap-6 md:grid-cols-3">
                             <div className="md:col-span-2">
                                 <div className="sticky top-[10px] flex flex-col gap-6">
-                                    <PortfolioOverview />
+                                    {/* <PortfolioOverview /> */}
+                                    <NewsContent
+                                        searchQuery={''}
+                                        activeFilters={[]}
+                                        activeCategory={'all'}
+                                        loading={false}
+                                    />
                                 </div>
                             </div>
                             <div className="md:col-span-1">
