@@ -140,7 +140,7 @@ export function PortfolioOverviewClient({ onlyChart }: { onlyChart?: boolean }) 
                         domain={['dataMin', 'dataMax']}
                     />
                     <Tooltip
-                        formatter={(value: number) => [`$${value.toFixed(2)}`, '']}
+                        formatter={(value: number) => [`$${value.toFixed(2)}`]}
                         labelFormatter={(label) => `Date: ${label}`}
                     />
                     <Legend />
@@ -156,7 +156,7 @@ export function PortfolioOverviewClient({ onlyChart }: { onlyChart?: boolean }) 
                     <Line
                         type="monotone"
                         dataKey="pastPrediction"
-                        name="pastPrediction"
+                        name="Past Prediction"
                         stroke="#edbc22"
                         strokeWidth={2}
                         dot={false}
@@ -165,7 +165,7 @@ export function PortfolioOverviewClient({ onlyChart }: { onlyChart?: boolean }) 
                     <Line
                         type="monotone"
                         dataKey="futurePrediction"
-                        name="futurePrediction"
+                        name="Future Prediction"
                         stroke="#e94c47"
                         strokeWidth={2}
                         dot={false}

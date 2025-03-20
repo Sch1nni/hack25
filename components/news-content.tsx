@@ -316,6 +316,10 @@ export function NewsContent({ searchQuery, activeFilters, activeCategory, loadin
             <p className="text-sm text-muted-foreground mb-2">{news.summary}</p>
 
             <div className="flex flex-wrap items-center gap-2 mt-2">
+              <div className="text-xs text-muted-foreground">
+                Source: <span className="font-bold italic">{news.source}</span>
+              </div>
+
               <Badge variant="secondary" className="text-xs">
                 {news.category === "market"
                   ? "Market News"
@@ -323,8 +327,6 @@ export function NewsContent({ searchQuery, activeFilters, activeCategory, loadin
                     ? "Regulatory Update"
                     : "Economic Indicator"}
               </Badge>
-
-              <div className="text-xs text-muted-foreground">Source: {news.source}</div>
 
               {news.clientsAffected > 0 && (
                 <Badge variant="outline" className="text-xs">
@@ -334,7 +336,7 @@ export function NewsContent({ searchQuery, activeFilters, activeCategory, loadin
             </div>
 
             {news.relatedAssets && news.relatedAssets.length > 0 && (
-              <div className="flex flex-wrap gap-1 mt-2">
+              <div className="flex flex-wrap items-center gap-1 mt-2">
                 <span className="text-xs text-muted-foreground">Related: </span>
                 {news.relatedAssets.map((asset, index) => (
                   <Badge key={index} variant="outline" className="text-xs">

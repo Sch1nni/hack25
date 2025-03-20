@@ -125,6 +125,7 @@ export function PortfolioOverview() {
                                 name="Portfolio"
                                 stroke="#0ea5e9"
                                 strokeWidth={2}
+                                dot={false}
                                 activeDot={{ r: 6, strokeWidth: 2 }}
                             />
                             <Line
@@ -133,6 +134,7 @@ export function PortfolioOverview() {
                                 name="Benchmark"
                                 stroke="#94a3b8"
                                 strokeWidth={2}
+                                dot={false}
                                 strokeDasharray="5 5"
                             />
                             <defs>

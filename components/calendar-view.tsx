@@ -221,7 +221,7 @@ export function CalendarView() {
                         variant="outline"
                         size="sm"
                     >
-                        <Plus className="mr-2 h-4 w-4" />
+                        <Plus className="h-4 w-4" />
                         Add Event
                     </Button>
                 </div>
@@ -233,7 +233,7 @@ export function CalendarView() {
                             variant="outline"
                             size="sm"
                         >
-                            <Plus className="mr-2 h-4 w-4" />
+                            <Plus className="h-4 w-4" />
                             Add Event
                         </Button>
                     </div>
@@ -462,8 +462,8 @@ export function CalendarView() {
                         </TabsList>
                     </Tabs>
 
-                    <Button>
-                        <Plus className="mr-2 h-4 w-4" />
+                    <Button variant="outline" style={{ backgroundColor: 'hsl(var(--primary))', color: 'white' }}>
+                        <Plus className="h-4 w-4" />
                         Add Event
                     </Button>
                 </div>

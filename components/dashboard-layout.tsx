@@ -40,7 +40,7 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
             label: 'Clients',
             active: pathname === '/clients' || pathname.startsWith('/client/'),
         },
-        { path: '/investments', icon: Briefcase, label: 'Investments', active: pathname === '/investments' },
+        // { path: '/investments', icon: Briefcase, label: 'Investments', active: pathname === '/investments' },
         { path: '/analytics', icon: PieChart, label: 'Analytics', active: pathname === '/analytics' },
         { path: '/calendar', icon: Calendar, label: 'Calendar', active: pathname === '/calendar' },
         { path: "/news", icon: FileText, label: "News", active: pathname === "/news" },
@@ -126,7 +126,7 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
                         </SidebarGroupContent>
                     </SidebarGroup>
 
-                    <SidebarGroup>
+                    {/* <SidebarGroup>
                         <SidebarGroupLabel>Settings</SidebarGroupLabel>
                         <SidebarGroupContent>
                             <SidebarMenu>
@@ -144,7 +144,7 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
                                 </SidebarMenuItem>
                             </SidebarMenu>
                         </SidebarGroupContent>
-                    </SidebarGroup>
+                    </SidebarGroup> */}
                 </SidebarContent>
 
                 <SidebarFooter className="p-4">
