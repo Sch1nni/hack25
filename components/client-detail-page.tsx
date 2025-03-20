@@ -1421,7 +1421,7 @@ export function ClientDetailPage({ clientId }: ClientDetailPageProps) {
                                                                     value={item.value}
                                                                     className="h-2"
                                                                     style={{ backgroundColor: `${item.color}20` }}
-                                                                    indicatorStyle={{ backgroundColor: item.color }}
+                                                                    color={item.color}
                                                                 />
                                                             </div>
                                                         ))}
@@ -1436,35 +1436,7 @@ export function ClientDetailPage({ clientId }: ClientDetailPageProps) {
                                                         width="100%"
                                                         height="100%"
                                                     >
-                                                        <LineChart data={client.performanceData}>
-                                                            <CartesianGrid
-                                                                strokeDasharray="3 3"
-                                                                opacity={0.2}
-                                                            />
-                                                            <XAxis dataKey="date" />
-                                                            <YAxis tickFormatter={(value) => `$${(value / 1000000).toFixed(1)}M`} />
-                                                            <Tooltip
-                                                                formatter={(value: number) => [`$${(value / 1000000).toFixed(2)}M`, '']}
-                                                                labelFormatter={(label) => `Date: ${label}`}
-                                                            />
-                                                            <Legend />
-                                                            <Line
-                                                                type="monotone"
-                                                                dataKey="portfolio"
-                                                                name="Portfolio"
-                                                                stroke="#0ea5e9"
-                                                                strokeWidth={2}
-                                                                activeDot={{ r: 6, strokeWidth: 2 }}
-                                                            />
-                                                            <Line
-                                                                type="monotone"
-                                                                dataKey="benchmark"
-                                                                name="Benchmark"
-                                                                stroke="#94a3b8"
-                                                                strokeWidth={2}
-                                                                strokeDasharray="5 5"
-                                                            />
-                                                        </LineChart>
+                                                        <PortfolioOverviewClient onlyChart={true} />
                                                     </ResponsiveContainer>
                                                 </div>
                                             </div>
