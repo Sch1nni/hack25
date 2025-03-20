@@ -7,7 +7,7 @@ import { usePathname } from 'next/navigation'
 import { ModeToggle } from '@/components/mode-toggle'
 import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem, SidebarTrigger, SidebarGroup, SidebarGroupContent, SidebarGroupLabel } from '@/components/ui/sidebar'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
-import { BarChart3, Home, Users, PieChart, Calendar, Settings, Bell, Briefcase } from 'lucide-react'
+import { BarChart3, Home, Users, PieChart, Calendar, Settings, Bell, Briefcase, FileText } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu'
@@ -41,6 +41,7 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
         { path: '/investments', icon: Briefcase, label: 'Investments', active: pathname === '/investments' },
         { path: '/analytics', icon: PieChart, label: 'Analytics', active: pathname === '/analytics' },
         { path: '/calendar', icon: Calendar, label: 'Calendar', active: pathname === '/calendar' },
+        { path: "/news", icon: FileText, label: "News", active: pathname === "/news" },
     ]
 
     const notifications = [
