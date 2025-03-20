@@ -20,7 +20,7 @@ const countryMapping: Record<string, string[]> = {
     'Russia': ['RUS'],
     'South Korea': ['KOR'],
     'United Kingdom': ['GBR'],
-    'Switzerland': ['CHE']
+    'Switzerland': ['CHE'],
 }
 
 interface WorldMapProps {
@@ -47,7 +47,7 @@ export function WorldMap({ data, onCountrySelect, selectedCountry }: WorldMapPro
         const countryCode = geo.properties?.iso_a3
 
         // First check direct match with iso_a3
-        const directMatch = data.find(item => item.iso_a3 === countryCode)
+        const directMatch = data.find((item) => item.iso_a3 === countryCode)
         if (directMatch) {
             return directMatch.color
         }
@@ -55,7 +55,7 @@ export function WorldMap({ data, onCountrySelect, selectedCountry }: WorldMapPro
         // Then check if country is part of a region (like Europe)
         for (const [regionName, codes] of Object.entries(countryMapping)) {
             if (codes.includes(countryCode)) {
-                const regionData = data.find(item => item.country === regionName)
+                const regionData = data.find((item) => item.country === regionName)
                 if (regionData) {
                     return regionData.color
                 }
@@ -115,11 +115,11 @@ export function WorldMap({ data, onCountrySelect, selectedCountry }: WorldMapPro
                 projection="geoMercator"
                 projectionConfig={{
                     scale: 150,
-                    center: [0, 30]
+                    center: [0, 30],
                 }}
                 style={{
-                    width: "100%",
-                    height: "100%"
+                    width: '100%',
+                    height: '100%',
                 }}
             >
                 <ZoomableGroup

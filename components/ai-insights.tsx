@@ -35,7 +35,7 @@ const insights = [
 export function AIInsights() {
     return (
         <Card>
-            <CardHeader className="pb-2">
+            <CardHeader className="mb-2 pb-2">
                 <div className="flex items-center justify-between">
                     <CardTitle className="flex items-center gap-2 text-base">
                         <Lightbulb className="h-4 w-4 text-primary" />

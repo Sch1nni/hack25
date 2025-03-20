@@ -52,7 +52,7 @@ const activities = [
 export function RecentActivity() {
     return (
         <Card>
-            <CardHeader className="pb-2">
+            <CardHeader className="mb-2 pb-2">
                 <CardTitle className="text-base">Recent Activity</CardTitle>
                 <CardDescription>Latest transactions and portfolio changes</CardDescription>
             </CardHeader>
@@ -63,7 +63,7 @@ export function RecentActivity() {
                             key={activity.id}
                             className="flex gap-3 rounded-lg border p-3"
                         >
-                            <div className={`mt-0.5 rounded-full p-1.5 ${activity.badgeColor}`}>
+                            <div className={`mt-0.5 flex h-6 w-6 items-center justify-center rounded-full p-1.5 ${activity.badgeColor}`}>
                                 <activity.icon className={`h-4 w-4 ${activity.iconColor}`} />
                             </div>
                             <div className="flex-1 space-y-1">

@@ -25,7 +25,7 @@ interface ClientInfoCardProps {
 
 export function ClientInfoCard({ client }: ClientInfoCardProps) {
     return (
-        <Card className="sticky top-[20px] w-full md:w-1/4">
+        <Card className="sticky top-[20px] w-full md:w-[400px]">
             <CardContent className="pt-6">
                 <div className="mb-6 flex flex-col items-center text-center">
                     <Avatar className="mb-4 h-24 w-24">

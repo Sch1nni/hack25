@@ -80,7 +80,7 @@ export function ClientsSection({ onViewClient }: ClientsSectionProps) {
             {' '}
             <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
                 <div>
-                    <CardTitle>Client Portfolios</CardTitle>
+                    <CardTitle className="mb-2">Client Portfolios</CardTitle>
                     <CardDescription>Overview of all client accounts and performance</CardDescription>
                 </div>
                 <div className="flex items-center gap-2">

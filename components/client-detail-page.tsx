@@ -772,7 +772,7 @@ export function ClientDetailPage({ clientId }: ClientDetailPageProps) {
 
                 <div className="flex flex-col items-start gap-6 md:flex-row">
                     <ClientInfoCard client={client} />
-                    <div className="w-full space-y-6 md:w-3/4">
+                    <div className="w-full space-y-6 md:w-full">
                         <Tabs defaultValue="overview">
                             <TabsList className="mb-4 flex w-full justify-between">
                                 <TabsTrigger value="overview">Overview</TabsTrigger>
@@ -804,7 +804,7 @@ export function ClientDetailPage({ clientId }: ClientDetailPageProps) {
                                             <CardContent>
                                                 <div className="space-y-4">
                                                     <div className="flex gap-3 rounded-lg border p-3">
-                                                        <div className="mt-0.5 flex items-center justify-center rounded-full bg-emerald-500/10 p-1.5 text-emerald-500">
+                                                        <div className="mt-0.5 flex h-6 w-6 items-center justify-center rounded-full bg-emerald-500/10 p-1.5 text-emerald-500">
                                                             <TrendingUp className="h-4 w-4" />
                                                         </div>
                                                         <div className="space-y-1">
@@ -822,7 +822,7 @@ export function ClientDetailPage({ clientId }: ClientDetailPageProps) {
                                                     </div>
 
                                                     <div className="flex gap-3 rounded-lg border p-3">
-                                                        <div className="mt-0.5 flex items-center justify-center rounded-full bg-amber-500/10 p-1.5 text-amber-500">
+                                                        <div className="mt-0.5 flex h-6 w-6 items-center justify-center rounded-full bg-amber-500/10 p-1.5 text-amber-500">
                                                             <AlertCircle className="h-4 w-4" />
                                                         </div>
                                                         <div className="space-y-1">
@@ -840,7 +840,7 @@ export function ClientDetailPage({ clientId }: ClientDetailPageProps) {
                                                     </div>
 
                                                     <div className="flex gap-3 rounded-lg border p-3">
-                                                        <div className="mt-0.5 flex items-center justify-center rounded-full bg-blue-500/10 p-1.5 text-blue-500">
+                                                        <div className="mt-0.5 flex h-6 w-6 items-center justify-center rounded-full bg-blue-500/10 p-1.5 text-blue-500">
                                                             <CheckCircle2 className="h-4 w-4" />
                                                         </div>
                                                         <div className="space-y-1">
@@ -980,12 +980,14 @@ export function ClientDetailPage({ clientId }: ClientDetailPageProps) {
                                                                 labelFormatter={(label) => `${label}`}
                                                             />
                                                             <Bar
-                                                                key={Math.random() * Math.random()}
                                                                 dataKey="value"
                                                                 radius={[4, 4, 0, 0]}
                                                             >
                                                                 {client.assetAllocation.map((item: any) => (
-                                                                    <Cell key={Math.random() * Math.random()} fill={item.color} />
+                                                                    <Cell
+                                                                        key={item.name}
+                                                                        fill={item.color}
+                                                                    />
                                                                 ))}
                                                             </Bar>
                                                         </RechartsBarChart>

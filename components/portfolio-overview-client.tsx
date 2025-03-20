@@ -107,82 +107,84 @@ const combinedData = portfolioData.map((item, index) => {
 export function PortfolioOverviewClient({ onlyChart }: { onlyChart?: boolean }) {
     const [timeframe, setTimeframe] = useState('1Y')
 
-    let content = <div className="h-[300px] w-full">
-        <ResponsiveContainer
-            width="100%"
-            height="100%"
-        >
-            <LineChart data={combinedData}>
-                <CartesianGrid
-                    strokeDasharray="3 3"
-                    opacity={0.2}
-                />
-                <XAxis
-                    dataKey="date"
-                    tickFormatter={(value) => value.substring(5)} // Show only MM-DD part for display
-                />
-                <YAxis
-                    tickFormatter={(value) => `$${(value).toFixed(2)}`}
-                    width={80}
-                    domain={['dataMin', 'dataMax']}
-                />
-                <Tooltip
-                    formatter={(value: number) => [`$${(value).toFixed(2)}`, '']}
-                    labelFormatter={(label) => `Date: ${label}`}
-                />
-                <Legend />
-                <Line
-                    type="monotone"
-                    dataKey="portfolio"
-                    name="Portfolio"
-                    stroke="#0ea5e9"
-                    strokeWidth={2}
-                    dot={false}
-                    activeDot={{ r: 6, strokeWidth: 2 }}
-                />
-                <Line
-                    type="monotone"
-                    dataKey="benchmark"
-                    name="Benchmark"
-                    stroke="#94a3b8"
-                    strokeWidth={2}
-                    strokeDasharray="5 5"
-                />
-                <defs>
-                    <linearGradient
-                        id="colorGradient"
-                        x1="0"
-                        y1="0"
-                        x2="0"
-                        y2="1"
-                    >
-                        <stop
-                            offset="5%"
-                            stopColor="#0ea5e9"
-                            stopOpacity={0.8}
-                        />
-                        <stop
-                            offset="95%"
-                            stopColor="#0ea5e9"
-                            stopOpacity={0}
-                        />
-                    </linearGradient>
-                </defs>
-                <Area
-                    type="monotone"
-                    dataKey="portfolio"
-                    fill="url(#colorGradient)"
-                    fillOpacity={0.2}
-                />
-            </LineChart>
-        </ResponsiveContainer>
-    </div>
+    let content = (
+        <div className="h-[300px] w-full">
+            <ResponsiveContainer
+                width="100%"
+                height="100%"
+            >
+                <LineChart data={combinedData}>
+                    <CartesianGrid
+                        strokeDasharray="3 3"
+                        opacity={0.2}
+                    />
+                    <XAxis
+                        dataKey="date"
+                        tickFormatter={(value) => value.substring(5)} // Show only MM-DD part for display
+                    />
+                    <YAxis
+                        tickFormatter={(value) => `$${value.toFixed(2)}`}
+                        width={80}
+                        domain={['dataMin', 'dataMax']}
+                    />
+                    <Tooltip
+                        formatter={(value: number) => [`$${value.toFixed(2)}`, '']}
+                        labelFormatter={(label) => `Date: ${label}`}
+                    />
+                    <Legend />
+                    <Line
+                        type="monotone"
+                        dataKey="portfolio"
+                        name="Portfolio"
+                        stroke="#0ea5e9"
+                        strokeWidth={2}
+                        dot={false}
+                        activeDot={{ r: 6, strokeWidth: 2 }}
+                    />
+                    <Line
+                        type="monotone"
+                        dataKey="benchmark"
+                        name="Benchmark"
+                        stroke="#94a3b8"
+                        strokeWidth={2}
+                        strokeDasharray="5 5"
+                    />
+                    <defs>
+                        <linearGradient
+                            id="colorGradient"
+                            x1="0"
+                            y1="0"
+                            x2="0"
+                            y2="1"
+                        >
+                            <stop
+                                offset="5%"
+                                stopColor="#0ea5e9"
+                                stopOpacity={0.8}
+                            />
+                            <stop
+                                offset="95%"
+                                stopColor="#0ea5e9"
+                                stopOpacity={0}
+                            />
+                        </linearGradient>
+                    </defs>
+                    <Area
+                        type="monotone"
+                        dataKey="portfolio"
+                        fill="url(#colorGradient)"
+                        fillOpacity={0.2}
+                    />
+                </LineChart>
+            </ResponsiveContainer>
+        </div>
+    )
 
     let contentContainer = (
         <Card className="overflow-hidden">
             <CardHeader className="flex flex-row items-center justify-between">
                 <div>
-                    <CardTitle>Portfolio Performance Client</CardTitle>
+                    <CardTitle className="mb-2">Portfolio Performance</CardTitle>
                     <CardDescription>Total portfolio value and performance over time</CardDescription>
                 </div>
                 <Tabs
@@ -235,7 +237,6 @@ export function PortfolioOverviewClient({ onlyChart }: { onlyChart?: boolean }) 
                 </div>
 
                 {content}
-                
             </CardContent>
         </Card>
     )

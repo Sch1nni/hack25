@@ -418,7 +418,7 @@ export function CalendarView() {
         <div className="space-y-6">
             <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
                 <div className="flex items-center gap-2">
-                    <Button
+                    {/* <Button
                         variant="outline"
                         size="icon"
                         onClick={previousMonth}
@@ -432,7 +432,7 @@ export function CalendarView() {
                         onClick={nextMonth}
                     >
                         <ChevronRight className="h-4 w-4" />
-                    </Button>
+                    </Button> */}
                 </div>
 
                 <div className="flex items-center gap-2">
@@ -470,97 +470,78 @@ export function CalendarView() {
             </div>
 
             <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
-                <Card className={view === 'month' ? 'md:col-span-2' : 'md:col-span-3'}>
-                    <CardContent className="p-4">
-                        {view === 'month' && (
-                            <div className="p-2">
-                                <Calendar
-                                    mode="single"
-                                    selected={selectedDate}
-                                    onSelect={(date) => date && setSelectedDate(date)}
-                                    month={date}
-                                    onMonthChange={setDate}
-                                    className="w-full"
-                                    modifiers={{
-                                        event: daysWithEvents()
-                                            .filter((day) => day.hasEvent)
-                                            .map((day) => day.date),
-                                    }}
-                                    modifiersClassNames={{
-                                        event: 'event-day',
-                                    }}
-                                    styles={{
-                                        day_today: { fontWeight: 'bold' },
-                                        day_selected: { backgroundColor: 'hsl(var(--primary))', color: 'white' },
-                                        day_event: { position: 'relative' },
-                                    }}
-                                    components={{
-                                        DayContent: ({ date, displayValue }) => {
-                                            const hasEvent = daysWithEvents().find((day) => isSameDay(day.date, date))?.hasEvent
-                                            return (
-                                                <div className="relative flex h-full w-full items-center justify-center">
-                                                    {displayValue}
-                                                    {hasEvent && <div className="absolute bottom-1 left-1/2 h-1 w-1 -translate-x-1/2 transform rounded-full bg-primary"></div>}
-                                                </div>
-                                            )
-                                        },
-                                    }}
-                                />
+                <div className="col-span-3">
+                    <Calendar
+                        className="w-full"
+                        modifiers={{
+                            event: daysWithEvents()
+                                .filter((day) => day.hasEvent)
+                                .map((day) => day.date),
+                        }}
+                        modifiersClassNames={{
+                            event: 'event-day',
+                        }}
+                        styles={{
+                            day_today: { fontWeight: 'bold' },
+                            day_selected: { backgroundColor: 'hsl(var(--primary))', color: 'white' },
+                            day_event: { position: 'relative' },
+                        }}
+                        components={{
+                            DayContent: ({ date, displayValue }) => {
+                                const hasEvent = daysWithEvents().find((day) => isSameDay(day.date, date))?.hasEvent
+                                return (
+                                    <div className="relative flex h-full w-full items-center justify-center">
+                                        {displayValue}
+                                        {hasEvent && <div className="absolute bottom-1 left-1/2 h-1 w-1 -translate-x-1/2 transform rounded-full bg-primary"></div>}
+                                    </div>
+                                )
+                            },
+                        }}
+                    />
+                </div>
+
+                <Card>
+                    <CardHeader className="pb-2">
+                        <CardTitle className="text-base">Upcoming Events</CardTitle>
+                        <CardDescription>Events for {format(selectedDate, 'MMMM d, yyyy')}</CardDescription>
+                    </CardHeader>
+                    <CardContent>
+                        {eventsForSelectedDate.length === 0 ? (
+                            <div className="py-6 text-center text-muted-foreground">
+                                <CalendarIcon className="mx-auto mb-2 h-10 w-10 opacity-20" />
+                                <p>No events scheduled for this day</p>
+                            </div>
+                        ) : (
+                            <div className="space-y-4">
+                                {eventsForSelectedDate.map((event) => (
+                                    <div
+                                        key={event.id}
+                                        className="flex items-start gap-3 rounded-lg border p-3"
+                                    >
+                                        <div className="mt-0.5">
+                                            {event.type === 'appointment' && <Users className="h-4 w-4 text-blue-500" />}
+                                            {event.type === 'regulation' && <AlertTriangle className="h-4 w-4 text-amber-500" />}
+                                            {event.type === 'news' && <Newspaper className="h-4 w-4 text-emerald-500" />}
+                                        </div>
+                                        <div className="flex-1 space-y-1">
+                                            <div className="flex items-center justify-between">
+                                                <h4 className="text-sm font-medium">{event.title}</h4>
+                                                <Badge
+                                                    variant="outline"
+                                                    className="text-[10px]"
+                                                >
+                                                    {format(parseISO(event.date), 'h:mm a')}
+                                                </Badge>
+                                            </div>
+                                            <p className="text-xs text-muted-foreground">{event.description}</p>
+                                        </div>
+                                    </div>
+                                ))}
                             </div>
                         )}
-
-                        {view === 'day' && dayView()}
-
-                        {view === 'list' && listView()}
                     </CardContent>
                 </Card>
 
-                {view === 'month' && (
-                    <Card>
-                        <CardHeader className="pb-2">
-                            <CardTitle className="text-base">Upcoming Events</CardTitle>
-                            <CardDescription>Events for {format(selectedDate, 'MMMM d, yyyy')}</CardDescription>
-                        </CardHeader>
-                        <CardContent>
-                            {eventsForSelectedDate.length === 0 ? (
-                                <div className="py-6 text-center text-muted-foreground">
-                                    <CalendarIcon className="mx-auto mb-2 h-10 w-10 opacity-20" />
-                                    <p>No events scheduled for this day</p>
-                                </div>
-                            ) : (
-                                <div className="space-y-4">
-                                    {eventsForSelectedDate.map((event) => (
-                                        <div
-                                            key={event.id}
-                                            className="flex items-start gap-3 rounded-lg border p-3"
-                                        >
-                                            <div className="mt-0.5">
-                                                {event.type === 'appointment' && <Users className="h-4 w-4 text-blue-500" />}
-                                                {event.type === 'regulation' && <AlertTriangle className="h-4 w-4 text-amber-500" />}
-                                                {event.type === 'news' && <Newspaper className="h-4 w-4 text-emerald-500" />}
-                                            </div>
-                                            <div className="flex-1 space-y-1">
-                                                <div className="flex items-center justify-between">
-                                                    <h4 className="text-sm font-medium">{event.title}</h4>
-                                                    <Badge
-                                                        variant="outline"
-                                                        className="text-[10px]"
-                                                    >
-                                                        {format(parseISO(event.date), 'h:mm a')}
-                                                    </Badge>
-                                                </div>
-                                                <p className="text-xs text-muted-foreground">{event.description}</p>
-                                            </div>
-                                        </div>
-                                    ))}
-                                </div>
-                            )}
-                        </CardContent>
-                    </Card>
-                )}
-            </div>
-
-            <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
                 <Card>
                     <CardHeader className="pb-2">
                         <CardTitle className="text-base">Client Appointments</CardTitle>
@@ -605,7 +586,7 @@ export function CalendarView() {
                     </CardContent>
                 </Card>
 
-                <Card>
+                {/* <Card>
                     <CardHeader className="pb-2">
                         <CardTitle className="text-base">Regulatory Updates</CardTitle>
                         <CardDescription>Important compliance deadlines</CardDescription>
@@ -619,7 +600,7 @@ export function CalendarView() {
                                         key={event.id}
                                         className="flex items-start gap-3 rounded-lg border p-3"
                                     >
-                                        <div className={`mt-0.5 rounded-full p-1 ${event.importance === 'high' ? 'bg-red-500/10' : 'bg-amber-500/10'}`}>
+                                        <div className={`mt-0.5 flex h-6 w-6 items-center justify-center rounded-full p-1.5 ${event.importance === 'high' ? 'bg-red-500/10' : 'bg-amber-500/10'}`}>
                                             <AlertTriangle className={`h-4 w-4 ${event.importance === 'high' ? 'text-red-500' : 'text-amber-500'}`} />
                                         </div>
                                         <div className="flex-1 space-y-1">
@@ -642,7 +623,7 @@ export function CalendarView() {
                                 ))}
                         </div>
                     </CardContent>
-                </Card>
+                </Card> */}
 
                 <Card>
                     <CardHeader className="pb-2">
@@ -658,7 +639,7 @@ export function CalendarView() {
                                         key={event.id}
                                         className="flex items-start gap-3 rounded-lg border p-3"
                                     >
-                                        <div className={`mt-0.5 rounded-full p-1 ${event.importance === 'high' ? 'bg-emerald-500/10' : 'bg-blue-500/10'}`}>
+                                        <div className={`mt-0.5 flex h-6 w-6 items-center justify-center rounded-full p-1.5 ${event.importance === 'high' ? 'bg-emerald-500/10' : 'bg-blue-500/10'}`}>
                                             <Newspaper className={`h-4 w-4 ${event.importance === 'high' ? 'text-emerald-500' : 'text-blue-500'}`} />
                                         </div>
                                         <div className="flex-1 space-y-1">

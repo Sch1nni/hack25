@@ -1,51 +1,399 @@
 'use client'
 
-import type * as React from 'react'
-import { ChevronLeft, ChevronRight } from 'lucide-react'
-import { DayPicker } from 'react-day-picker'
+import { useState } from 'react'
+import { ChevronLeft, ChevronRight, Plus } from 'lucide-react'
+import { Button } from '@/components/ui/button'
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip'
 
-import { cn } from '@/lib/utils'
-import { buttonVariants } from '@/components/ui/button'
+// Tipi di eventi
+type EventType = 'appointment' | 'regulatory' | 'market'
 
-export type CalendarProps = React.ComponentProps<typeof DayPicker>
+// Interfaccia per gli eventi
+interface CalendarEvent {
+    id: string
+    date: string // formato: "YYYY-MM-DD"
+    title: string
+    time?: string
+    type: EventType
+    description: string
+    priority?: 'high' | 'medium' | 'low'
+}
 
-function Calendar({ className, classNames, showOutsideDays = true, ...props }: CalendarProps) {
+// Eventi fittizi per marzo 2025
+const events: CalendarEvent[] = [
+    {
+        id: '1',
+        date: '2025-03-05',
+        title: 'Portfolio Review - Johnson Family',
+        time: '10:00 AM',
+        type: 'appointment',
+        description: 'Annual portfolio review with the Johnson family',
+    },
+    {
+        id: '2',
+        date: '2025-03-08',
+        title: 'Investment Committee Meeting',
+        time: '2:00 PM',
+        type: 'appointment',
+        description: 'Quarterly investment committee meeting',
+    },
+    {
+        id: '3',
+        date: '2025-03-12',
+        title: 'Tax Planning Workshop',
+        time: '3:30 PM',
+        type: 'appointment',
+        description: 'Workshop for high-net-worth clients on tax strategies',
+    },
+    {
+        id: '4',
+        date: '2025-03-15',
+        title: 'SEC Filing Deadline',
+        type: 'regulatory',
+        description: 'Quarterly SEC filing deadline',
+        priority: 'high',
+    },
+    {
+        id: '5',
+        date: '2025-03-18',
+        title: 'Client Onboarding - Smith Corp',
+        time: '11:00 AM',
+        type: 'appointment',
+        description: 'New client onboarding meeting',
+    },
+    {
+        id: '6',
+        date: '2025-03-20',
+        title: 'Federal Reserve Meeting',
+        time: '2:00 PM',
+        type: 'market',
+        description: 'Federal Reserve announces interest rate decision',
+    },
+    {
+        id: '7',
+        date: '2025-03-20',
+        title: 'Retirement Planning Session',
+        time: '4:30 PM',
+        type: 'appointment',
+        description: 'Retirement planning session with the Wilsons',
+    },
+    {
+        id: '8',
+        date: '2025-03-22',
+        title: 'Compliance Training',
+        time: '9:00 AM',
+        type: 'regulatory',
+        description: 'Mandatory compliance training for all advisors',
+        priority: 'medium',
+    },
+    {
+        id: '9',
+        date: '2025-03-25',
+        title: 'Quarterly Earnings Begin',
+        type: 'market',
+        description: 'Major companies begin reporting Q1 2025 earnings',
+    },
+    {
+        id: '10',
+        date: '2025-03-28',
+        title: 'Estate Planning Review',
+        time: '1:00 PM',
+        type: 'appointment',
+        description: 'Estate planning review with the Thompsons',
+    },
+    {
+        id: '11',
+        date: '2025-03-31',
+        title: 'End of Quarter',
+        type: 'market',
+        description: 'End of Q1 2025 - prepare quarterly reports',
+    },
+]
+
+export function Calendar() {
+    const [currentMonth, setCurrentMonth] = useState('March 2025')
+    const [viewMode, setViewMode] = useState('Month')
+    const [selectedDate, setSelectedDate] = useState('2025-03-20')
+
+    // Sample data for the calendar
+    const days = ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa']
+    const dates = [
+        [23, 24, 25, 26, 27, 28, 1],
+        [2, 3, 4, 5, 6, 7, 8],
+        [9, 10, 11, 12, 13, 14, 15],
+        [16, 17, 18, 19, 20, 21, 22],
+        [23, 24, 25, 26, 27, 28, 29],
+        [30, 31, 1, 2, 3, 4, 5],
+    ]
+
+    // Funzione per verificare se un giorno è il giorno corrente
+    const isCurrentDay = (day: number) => day === 20 && currentMonth === 'March 2025'
+
+    // Funzione per verificare se un giorno ha eventi
+    const hasEvents = (day: number, weekIndex: number) => {
+        // Calcola la data effettiva in formato YYYY-MM-DD
+        let month = 3 // Marzo
+        const year = 2025
+
+        // Gestisci i giorni del mese precedente (febbraio)
+        if (weekIndex === 0 && day > 20) {
+            month = 2
+        }
+        // Gestisci i giorni del mese successivo (aprile)
+        else if (weekIndex >= 4 && day < 15) {
+            month = 4
+        }
+
+        const dateStr = `2025-${month.toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}`
+        return events.some((event) => event.date === dateStr)
+    }
+
+    // Funzione per ottenere gli eventi di un giorno specifico
+    const getEventsForDay = (day: number, weekIndex: number) => {
+        let month = 3 // Marzo
+        const year = 2025
+
+        // Gestisci i giorni del mese precedente (febbraio)
+        if (weekIndex === 0 && day > 20) {
+            month = 2
+        }
+        // Gestisci i giorni del mese successivo (aprile)
+        else if (weekIndex >= 4 && day < 15) {
+            month = 4
+        }
+
+        const dateStr = `2025-${month.toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}`
+        return events.filter((event) => event.date === dateStr)
+    }
+
+    // Funzione per ottenere il colore di sfondo in base al tipo di evento
+    const getEventColor = (day: number, weekIndex: number) => {
+        const dayEvents = getEventsForDay(day, weekIndex)
+
+        if (dayEvents.length === 0) return ''
+
+        // Priorità dei colori: regulatory > market > appointment
+        if (dayEvents.some((e) => e.type === 'regulatory')) {
+            return 'bg-red-100'
+        } else if (dayEvents.some((e) => e.type === 'market')) {
+            return 'bg-blue-100'
+        } else {
+            return 'bg-green-100'
+        }
+    }
+
+    // Funzione per ottenere il colore del punto indicatore
+    const getEventDotColor = (type: EventType) => {
+        switch (type) {
+            case 'regulatory':
+                return 'bg-red-500'
+            case 'market':
+                return 'bg-blue-500'
+            case 'appointment':
+                return 'bg-green-500'
+            default:
+                return 'bg-gray-500'
+        }
+    }
+
+    // Funzione per formattare la data selezionata
+    const formatSelectedDate = () => {
+        const date = new Date(selectedDate)
+        return date.toLocaleDateString('en-US', {
+            weekday: 'long',
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric',
+        })
+    }
+
+    // Funzione per selezionare una data
+    const handleDateSelect = (day: number, weekIndex: number) => {
+        let month = 3 // Marzo
+        const year = 2025
+
+        // Gestisci i giorni del mese precedente (febbraio)
+        if (weekIndex === 0 && day > 20) {
+            month = 2
+        }
+        // Gestisci i giorni del mese successivo (aprile)
+        else if (weekIndex >= 4 && day < 15) {
+            month = 4
+        }
+
+        const dateStr = `2025-${month.toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}`
+        setSelectedDate(dateStr)
+    }
+
+    // Filtra gli eventi per la data selezionata
+    const selectedDateEvents = events.filter((event) => event.date === selectedDate)
+
     return (
-        <DayPicker
-            showOutsideDays={showOutsideDays}
-            className={cn('p-3', className)}
-            classNames={{
-                months: 'flex flex-col sm:flex-row space-y-4 sm:space-x-4 sm:space-y-0',
-                month: 'space-y-4',
-                caption: 'flex justify-center pt-1 relative items-center',
-                caption_label: 'text-sm font-medium',
-                nav: 'space-x-1 flex items-center',
-                nav_button: cn(buttonVariants({ variant: 'outline' }), 'h-7 w-7 bg-transparent p-0 opacity-50 hover:opacity-100'),
-                nav_button_previous: 'absolute left-1',
-                nav_button_next: 'absolute right-1',
-                table: 'w-full border-collapse space-y-1',
-                head_row: 'flex',
-                head_cell: 'text-muted-foreground rounded-md w-9 font-normal text-[0.8rem]',
-                row: 'flex w-full mt-2',
-                cell: 'h-9 w-9 text-center text-sm p-0 relative [&:has([aria-selected].day-range-end)]:rounded-r-md [&:has([aria-selected].day-outside)]:bg-accent/50 [&:has([aria-selected])]:bg-accent first:[&:has([aria-selected])]:rounded-l-md last:[&:has([aria-selected])]:rounded-r-md focus-within:relative focus-within:z-20',
-                day: cn(buttonVariants({ variant: 'ghost' }), 'h-9 w-9 p-0 font-normal aria-selected:opacity-100'),
-                day_range_end: 'day-range-end',
-                day_selected: 'bg-primary text-primary-foreground hover:bg-primary hover:text-primary-foreground focus:bg-primary focus:text-primary-foreground',
-                day_today: 'bg-accent text-accent-foreground',
-                day_outside: 'day-outside text-muted-foreground opacity-50 aria-selected:bg-accent/50 aria-selected:text-muted-foreground aria-selected:opacity-30',
-                day_disabled: 'text-muted-foreground opacity-50',
-                day_range_middle: 'aria-selected:bg-accent aria-selected:text-accent-foreground',
-                day_hidden: 'invisible',
-                ...classNames,
-            }}
-            components={{
-                IconLeft: ({ ...props }) => <ChevronLeft className="h-4 w-4" />,
-                IconRight: ({ ...props }) => <ChevronRight className="h-4 w-4" />,
-            }}
-            {...props}
-        />
+        // <div className="mb-6">
+
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
+            {/* Calendario compatto (date picker) */}
+            <div className="overflow-hidden rounded-lg border bg-white shadow-sm">
+                <div className="p-4">
+                    <div className="mb-4 flex items-center justify-between">
+                        <div className="flex items-center gap-2">
+                            <Button
+                                variant="ghost"
+                                size="sm"
+                            >
+                                <ChevronLeft className="h-4 w-4" />
+                            </Button>
+                            <span className="font-medium">{currentMonth}</span>
+                            <Button
+                                variant="ghost"
+                                size="sm"
+                            >
+                                <ChevronRight className="h-4 w-4" />
+                            </Button>
+                        </div>
+                    </div>
+
+                    <div className="mb-2 grid grid-cols-7 text-center text-xs font-medium">
+                        {days.map((day) => (
+                            <div
+                                key={day}
+                                className="py-1"
+                            >
+                                {day}
+                            </div>
+                        ))}
+                    </div>
+
+                    <div className="grid grid-cols-7 gap-1 text-xs">
+                        <TooltipProvider>
+                            {dates.map((week, weekIndex) =>
+                                week.map((day, dayIndex) => {
+                                    const dayEvents = getEventsForDay(day, weekIndex)
+                                    const hasEvent = dayEvents.length > 0
+                                    const eventColor = getEventColor(day, weekIndex)
+                                    const isSelected = day === Number.parseInt(selectedDate.split('-')[2]) && (weekIndex === 0 && day > 20 ? 2 : weekIndex >= 4 && day < 15 ? 4 : 3) === Number.parseInt(selectedDate.split('-')[1])
+
+                                    return (
+                                        <Tooltip key={`${weekIndex}-${dayIndex}`}>
+                                            <TooltipTrigger asChild>
+                                                <button
+                                                    onClick={() => handleDateSelect(day, weekIndex)}
+                                                    className={`relative flex aspect-square flex-col items-center justify-center rounded-md p-1 ${isCurrentDay(day) ? 'font-medium text-blue-600' : ''} ${isSelected ? 'ring-2 ring-blue-500' : ''} ${eventColor} ${(day < 23 && weekIndex === 0) || (day > 5 && weekIndex === 5) ? 'text-gray-400' : ''} transition-colors hover:bg-gray-50`}
+                                                >
+                                                    <span>{day}</span>
+                                                    {hasEvent && (
+                                                        <div className="mt-0.5 flex gap-0.5">
+                                                            {dayEvents.length <= 3 ? (
+                                                                dayEvents.map((event, i) => (
+                                                                    <div
+                                                                        key={i}
+                                                                        className={`h-1 w-1 rounded-full ${getEventDotColor(event.type)}`}
+                                                                    />
+                                                                ))
+                                                            ) : (
+                                                                <>
+                                                                    <div className="h-1 w-1 rounded-full bg-gray-500" />
+                                                                    <div className="text-[8px] leading-none">+{dayEvents.length}</div>
+                                                                </>
+                                                            )}
+                                                        </div>
+                                                    )}
+                                                </button>
+                                            </TooltipTrigger>
+                                            {hasEvent && (
+                                                <TooltipContent
+                                                    side="bottom"
+                                                    className="max-w-xs"
+                                                >
+                                                    <div className="space-y-1 p-1">
+                                                        {dayEvents.map((event, i) => (
+                                                            <div
+                                                                key={i}
+                                                                className="text-xs"
+                                                            >
+                                                                <div className="flex items-center gap-1">
+                                                                    <div className={`h-2 w-2 rounded-full ${getEventDotColor(event.type)}`} />
+                                                                    <span className="font-medium">{event.title}</span>
+                                                                    {event.time && <span className="ml-auto text-gray-500">{event.time}</span>}
+                                                                </div>
+                                                            </div>
+                                                        ))}
+                                                    </div>
+                                                </TooltipContent>
+                                            )}
+                                        </Tooltip>
+                                    )
+                                }),
+                            )}
+                        </TooltipProvider>
+                    </div>
+
+                    <div className="mt-4 flex items-center gap-3 text-xs">
+                        <div className="flex items-center gap-1">
+                            <div className="h-2 w-2 rounded-full bg-green-500" />
+                            <span>Appointments</span>
+                        </div>
+                        <div className="flex items-center gap-1">
+                            <div className="h-2 w-2 rounded-full bg-red-500" />
+                            <span>Regulatory</span>
+                        </div>
+                        <div className="flex items-center gap-1">
+                            <div className="h-2 w-2 rounded-full bg-blue-500" />
+                            <span>Market</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            {/* Eventi del giorno selezionato */}
+            <div className="col-span-2 overflow-hidden rounded-lg border bg-white shadow-sm">
+                <div className="p-4">
+                    <h2 className="mb-1 text-lg font-semibold">Events for {formatSelectedDate()}</h2>
+                    <p className="mb-4 text-sm text-gray-500">{selectedDateEvents.length} events scheduled</p>
+
+                    {selectedDateEvents.length > 0 ? (
+                        <div className="space-y-3">
+                            {selectedDateEvents.map((event) => (
+                                <div
+                                    key={event.id}
+                                    className="rounded-lg border p-3 transition-colors hover:bg-gray-50"
+                                >
+                                    <div className="flex items-start gap-3">
+                                        <div className={`rounded-md p-2 ${event.type === 'regulatory' ? 'bg-red-100 text-red-600' : event.type === 'market' ? 'bg-blue-100 text-blue-600' : 'bg-green-100 text-green-600'}`}>
+                                            <div className="h-4 w-4" />
+                                        </div>
+                                        <div className="flex-1">
+                                            <div className="flex justify-between">
+                                                <h3 className="font-medium">{event.title}</h3>
+                                                {event.time && <span className="text-sm">{event.time}</span>}
+                                            </div>
+                                            <p className="mt-1 text-sm text-gray-500">{event.description}</p>
+                                            {event.priority && (
+                                                <div className="mt-2">
+                                                    <span className={`rounded px-2 py-0.5 text-xs ${event.priority === 'high' ? 'bg-red-50 text-red-600' : event.priority === 'medium' ? 'bg-yellow-50 text-yellow-600' : 'bg-green-50 text-green-600'}`}>{event.priority.charAt(0).toUpperCase() + event.priority.slice(1)} Priority</span>
+                                                </div>
+                                            )}
+                                        </div>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    ) : (
+                        <div className="py-8 text-center text-gray-500">
+                            <p>No events scheduled for this day</p>
+                            <Button
+                                variant="outline"
+                                className="mt-4"
+                            >
+                                <Plus className="mr-2 h-4 w-4" />
+                                Add Event
+                            </Button>
+                        </div>
+                    )}
+                </div>
+            </div>
+        </div>
+        // </div>
     )
 }
-Calendar.displayName = 'Calendar'
-
-export { Calendar }
