@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { DashboardLayout } from '@/components/dashboard-layout'
+import { PortfolioOverviewClient } from '@/components/portfolio-overview-client'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
@@ -792,86 +793,7 @@ export function ClientDetailPage({ clientId }: ClientDetailPageProps) {
                             >
                                 <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
                                     <div className="md:col-span-2">
-                                        <Card>
-                                            <CardHeader className="pb-2">
-                                                <CardTitle className="text-base">Portfolio Performance</CardTitle>
-                                                <CardDescription>Historical performance vs benchmark</CardDescription>
-                                            </CardHeader>
-                                            <CardContent>
-                                                <div className="mb-6 grid grid-cols-1 gap-4 md:grid-cols-3">
-                                                    <div className="space-y-1">
-                                                        <p className="text-sm text-muted-foreground">Current Value</p>
-                                                        <div className="flex items-center gap-2">
-                                                            <span className="text-2xl font-bold">{client.portfolioValue}</span>
-                                                            <div className="flex items-center text-sm font-medium text-emerald-500">
-                                                                {client.positive ? <ArrowUpRight className="h-4 w-4" /> : <ArrowDownRight className="h-4 w-4 text-red-500" />}
-                                                                <span className={client.positive ? 'text-emerald-500' : 'text-red-500'}>{client.change}</span>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-
-                                                    <div className="space-y-1">
-                                                        <p className="text-sm text-muted-foreground">YTD Return</p>
-                                                        <div className="flex items-center gap-2">
-                                                            <span className="text-2xl font-bold">+$180K</span>
-                                                            <div className="flex items-center text-sm font-medium text-emerald-500">
-                                                                <TrendingUp className="h-4 w-4" />
-                                                                <span>7.5%</span>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-
-                                                    <div className="space-y-1">
-                                                        <p className="text-sm text-muted-foreground">Benchmark Diff</p>
-                                                        <div className="flex items-center gap-2">
-                                                            <span className="text-2xl font-bold">+2.1%</span>
-                                                            <div className="flex items-center text-sm font-medium text-emerald-500">
-                                                                <ArrowUpRight className="h-4 w-4" />
-                                                                <span>Outperforming</span>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                                <div className="h-[300px] w-full">
-                                                    <ResponsiveContainer
-                                                        width="100%"
-                                                        height="100%"
-                                                    >
-                                                        {/* <div className="text-sm text-muted-foreground">Performance Data: {JSON.stringify(client.performanceData)}</div> */}
-                                                        <LineChart data={client.performanceData}>
-                                                            <CartesianGrid
-                                                                strokeDasharray="3 3"
-                                                                opacity={0.2}
-                                                            />
-                                                            <XAxis dataKey="date" />
-                                                            <YAxis tickFormatter={(value) => `$${(value / 1000000).toFixed(1)}M`} />
-                                                            <Tooltip
-                                                                formatter={(value: number) => [`$${(value / 1000000).toFixed(2)}M`, '']}
-                                                                labelFormatter={(label) => `Date: ${label}`}
-                                                            />
-                                                            <Legend />
-                                                            <Line
-                                                                type="monotone"
-                                                                dataKey="portfolio"
-                                                                name="Portfolio"
-                                                                stroke="#0ea5e9"
-                                                                strokeWidth={2}
-                                                                activeDot={{ r: 6, strokeWidth: 2 }}
-                                                            />
-                                                            <Line
-                                                                type="monotone"
-                                                                dataKey="benchmark"
-                                                                name="Benchmark"
-                                                                stroke="#94a3b8"
-                                                                strokeWidth={2}
-                                                                strokeDasharray="5 5"
-                                                            />
-                                                        </LineChart>
-                                                    </ResponsiveContainer>
-                                                </div>
-                                            </CardContent>
-                                        </Card>
+                                        <PortfolioOverviewClient />
                                     </div>
                                     <div className="md:col-span-1">
                                         <Card>
@@ -1060,7 +982,6 @@ export function ClientDetailPage({ clientId }: ClientDetailPageProps) {
                                                             <Bar
                                                                 dataKey="value"
                                                                 radius={[4, 4, 0, 0]}
-                                                            
                                                             >
                                                                 {client.assetAllocation.map((item: any) => (
                                                                     <Cell fill={item.color} />
