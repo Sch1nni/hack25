@@ -1,8 +1,7 @@
 import { SidebarProvider } from '@/components/ui/sidebar'
 import { ThemeProvider } from '@/components/theme-provider'
 import { DashboardLayout } from '@/components/dashboard-layout'
-import { DashboardHeader } from '@/components/dashboard-header'
-import { Card, CardContent } from '@/components/ui/card'
+import { InvestmentsContent } from './investments-content'
 
 export default function Investments() {
     return (
@@ -13,20 +12,7 @@ export default function Investments() {
         >
             <SidebarProvider>
                 <DashboardLayout>
-                    <div className="flex flex-col gap-6 p-6 md:p-8">
-                        <DashboardHeader
-                            searchQuery=""
-                            setSearchQuery={() => {}}
-                            title="Investments"
-                            description="Manage and monitor investment strategies"
-                        />
-
-                        <Card>
-                            <CardContent className="p-6">
-                                <div className="flex h-[400px] items-center justify-center text-muted-foreground">Investments content would appear here</div>
-                            </CardContent>
-                        </Card>
-                    </div>
+                    <InvestmentsContent />
                 </DashboardLayout>
             </SidebarProvider>
         </ThemeProvider>
