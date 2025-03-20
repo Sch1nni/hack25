@@ -7,10 +7,11 @@ import { usePathname } from 'next/navigation'
 import { ModeToggle } from '@/components/mode-toggle'
 import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem, SidebarTrigger, SidebarGroup, SidebarGroupContent, SidebarGroupLabel } from '@/components/ui/sidebar'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
-import { BarChart3, Home, Users, PieChart, Calendar, Settings, Bell, Briefcase, FileText } from 'lucide-react'
+import { BarChart3, Home, Users, PieChart, Calendar, Settings, Bell, Briefcase, FileText, Mic } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu'
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog'
 
 interface DashboardLayoutProps {
     children: React.ReactNode
@@ -18,6 +19,7 @@ interface DashboardLayoutProps {
 
 export function DashboardLayout({ children }: DashboardLayoutProps) {
     const [mounted, setMounted] = useState(false)
+    const [isModalOpen, setIsModalOpen] = useState(false)
     const pathname = usePathname()
     const [notificationCount, setNotificationCount] = useState(3)
 
@@ -223,7 +225,38 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
                     </div>
                 </header>
 
-                <main className="flex-1 overflow-auto">{children}</main>
+                <main className="flex-1 overflow-auto">
+                    {children}
+                    
+                    {/* Floating Microphone Button */}
+                    <Button
+                        className="fixed bottom-6 right-6 h-12 w-12 rounded-full shadow-lg"
+                        onClick={() => setIsModalOpen(true)}
+                    >
+                        <Mic className="h-6 w-6" />
+                    </Button>
+
+                    {/* Voice Assistant Modal */}
+                    <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
+                        <DialogContent>
+                            <DialogHeader>
+                                <DialogTitle>Voice Assistant</DialogTitle>
+                                <DialogDescription>
+                                    What can I help you with today?
+                                </DialogDescription>
+                            </DialogHeader>
+                            <div className="flex flex-col items-center justify-center space-y-4 p-6">
+                                <Button
+                                    className="h-16 w-16 rounded-full"
+                                    variant="outline"
+                                >
+                                    <Mic className="h-8 w-8" />
+                                </Button>
+                                <p className="text-sm text-muted-foreground">Click to start speaking</p>
+                            </div>
+                        </DialogContent>
+                    </Dialog>
+                </main>
             </div>
         </div>
     )
